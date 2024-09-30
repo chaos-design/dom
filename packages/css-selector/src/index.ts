@@ -3,6 +3,8 @@ import type { CssSelectorConfig } from './utils/options';
 
 export { default as CssSelector } from './core';
 
+export { CssSelectorConfig };
+
 let cssSelector: CssSelector;
 
 export function getCssSelector(
@@ -10,10 +12,10 @@ export function getCssSelector(
   config?: CssSelectorConfig,
 ) {
   if (!cssSelector) {
-    cssSelector = new CssSelector(el, config);
+    cssSelector = new CssSelector(config);
   }
 
-  return cssSelector.getCssSelectorList();
+  return cssSelector.getCssSelectorList(el);
 }
 
 export default getCssSelector;

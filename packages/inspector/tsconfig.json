@@ -1,0 +1,10 @@
+{
+  "extends": "@chaos-design/tsconfig",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  "include": ["src/**/*.tsx", "src/**/*.ts", "vitest-setup.ts"],
+  "exclude": ["node_modules", "lib"]
+}

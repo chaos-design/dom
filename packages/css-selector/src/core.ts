@@ -41,15 +41,25 @@ export type CssSelectorPath = CssSelectorPathNode[];
  *  => combination selector
  */
 class CssSelector {
-  elements: Element[];
   rootDocument: Element | Document;
   config: CssSelectorConfig;
+  start: Date;
 
-  constructor(el: Element | Element[], config?: CssSelectorConfig) {
-    this.elements = sanitizeElements(el);
+  constructor(config: CssSelectorConfig = {}, el?: Element | Element[]) {
+    this.start = new Date();
 
     this.config = sanitizeOptions(Object.assign(defaultOptions, config));
     this.rootDocument = this.findRootDocument(this.config.root);
+
+    if (el) {
+      this.getCssSelectorList(el);
+    }
+  }
+
+  static getCssSelector(el: Element | Element[], config?: CssSelectorConfig) {
+    const cssSelector = new this(config);
+
+    return cssSelector.getCssSelectorList(el);
   }
 
   findRootDocument(rootNode: Element | Document) {
@@ -64,8 +74,12 @@ class CssSelector {
     return rootNode;
   }
 
-  getCssSelectorList(): (undefined | string)[] {
-    const { elements } = this;
+  getCssSelectorList(el: Element | Element[]) {
+    const elements = sanitizeElements(el);
+
+    if (elements.length === 1) {
+      return this.getCssSelector(elements[0]);
+    }
 
     return elements.map((el: Element) => this.getCssSelector(el));
   }
@@ -132,13 +146,24 @@ class CssSelector {
 
     let i = 0;
 
-    const nth = this.findNthIndex(current);
-
     while (current) {
+      const elapsedTime = new Date().getTime() - this.start.getTime();
+
+      if (
+        this.config.timeoutMs !== undefined
+        && elapsedTime > this.config.timeoutMs
+      ) {
+        throw new Error(
+          `Timeout: Can't find a unique selector after ${elapsedTime}ms`,
+        );
+      }
+
       let level: CssSelectorPath | null = this.sanitizeNode(this.id(current))
         || this.sanitizeNode(...this.attribute(current))
         || this.sanitizeNode(...this.className(current))
         || this.sanitizeNode(this.tagName(current)) || [this.any()];
+
+      const nth = this.findNthIndex(current);
 
       if (limit === 'all') {
         if (nth) {
@@ -265,9 +290,9 @@ class CssSelector {
       const level = next.level || 0;
 
       if (current.level === level - 1) {
-        query = ` ${next.name} > ${query}`;
+        query = `${next.name} > ${query}`;
       } else {
-        query = ` ${next.name} ${query}`;
+        query = `${next.name} ${query}`;
       }
 
       current = next;
@@ -299,6 +324,7 @@ class CssSelector {
       path = this.combinationSelector(path);
     }
 
+    // console.log(path, this.rootDocument.querySelectorAll(path));
     switch (this.rootDocument.querySelectorAll(path).length) {
       case 1:
         return true;
@@ -343,11 +369,14 @@ class CssSelector {
     const id = getElementId(el);
 
     if (id && this.config.id(id, el.tagName.toLowerCase())) {
-      return {
-        tagName: el.tagName.toLowerCase(),
-        name: `${id}`,
-        penalty: 0,
-      };
+      return this.config.transform(
+        {
+          tagName: el.tagName.toLowerCase(),
+          name: `${id}`,
+          penalty: 0,
+        },
+        'id',
+      );
     }
 
     return null;
@@ -362,11 +391,16 @@ class CssSelector {
         return `[${name}='${value}']`;
       });
 
-    return attrList.map(attr => ({
-      tagName: el.tagName.toLowerCase(),
-      name: `${attr}`,
-      penalty: 0.5,
-    }));
+    return attrList.map(attr =>
+      this.config.transform(
+        {
+          tagName: el.tagName.toLowerCase(),
+          name: `${attr}`,
+          penalty: 0.5,
+        },
+        'attribute',
+      ),
+    );
   }
 
   className(el) {
@@ -374,22 +408,30 @@ class CssSelector {
       this.config.class(name, el.tagName.toLowerCase()),
     );
 
-    return classList.map(name => ({
-      tagName: el.tagName.toLowerCase(),
-      name: `.${CSS.escape(name)}`,
-      penalty: 1,
-    }));
+    return classList.map(name =>
+      this.config.transform(
+        {
+          tagName: el.tagName.toLowerCase(),
+          name: `.${CSS.escape(name)}`,
+          penalty: 1,
+        },
+        'className',
+      ),
+    );
   }
 
   tagName(el: Element) {
     const tagName = el.tagName.toLowerCase();
 
     if (this.config.tag(tagName)) {
-      return {
-        tagName,
-        name: tagName,
-        penalty: 2,
-      };
+      return this.config.transform(
+        {
+          tagName,
+          name: tagName,
+          penalty: 2,
+        },
+        'tag',
+      );
     }
   }
 

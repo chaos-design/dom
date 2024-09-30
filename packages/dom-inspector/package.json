@@ -1,16 +1,17 @@
 {
-  "name": "@chaos-design/css-selector",
+  "name": "@chaos-design/dom-inspector",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
   "exports": {
     "development": "./src/index.ts",
-    "types": "./index.d.ts",
-    "require": "./lib/index.cjs",
-    "import": "./lib/index.js"
+    "types": "./lib/index.d.ts",
+    "require": "./lib/index.cjs.js",
+    "import": "./lib/index.es.js"
   },
-  "main": "./lib/index.cjs",
-  "module": "./lib/index.js",
-  "types": "./index.d.ts",
+  "main": "./lib/index.cjs.js",
+  "module": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "lib",
     "index.d.ts"
@@ -25,9 +26,7 @@
     "format": "prettier --write --cache .",
     "release": "bumpp package.json"
   },
-  "dependencies": {
-    "@chaos-design/dom-finder": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@chaos-design/eslint-config-ts": "latest",
     "@chaos-design/tsconfig": "latest",

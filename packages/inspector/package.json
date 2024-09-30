@@ -1,0 +1,63 @@
+{
+  "name": "@chaos-design/inspector",
+  "type": "module",
+  "version": "0.0.1",
+  "exports": {
+    "development": "./src/index.ts",
+    "types": "./lib/index.d.ts",
+    "require": "./lib/index.cjs.js",
+    "import": "./lib/index.es.js"
+  },
+  "main": "./lib/index.cjs.js",
+  "module": "./lib/index.es.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "dev": "rm -rf lib && tsc && vite build --watch",
+    "build": "rm -rf lib && tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "@ant-design/cssinjs": "^1.21.1",
+    "@ant-design/icons": "^5.5.1",
+    "@chaos-design/classnames": "latest",
+    "@chaos-design/css-selector": "workspace:*",
+    "@emotion/css": "^11.13.0",
+    "antd": "^5.21.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-shadow": "^20.5.0"
+  },
+  "devDependencies": {
+    "@chaos-design/tsconfig": "latest",
+    "@rollup/plugin-commonjs": "^25.0.3",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@testing-library/react": "^16.0.1",
+    "@types/node": "^20.3.3",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "@vitejs/plugin-react": "^4.0.1",
+    "@vitejs/plugin-react-swc": "^3.7.0",
+    "eslint": "^9.11.0",
+    "eslint-config-chaos": "latest",
+    "eslint-define-config": "^2.1.0",
+    "lint-staged": "^13.2.3",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.8.8",
+    "typescript": "^5.6.2",
+    "unbuild": "^1.2.1",
+    "vite": "^5.4.7",
+    "vite-plugin-dts": "^4.2.1",
+    "vitest": "^2.1.1"
+  }
+}

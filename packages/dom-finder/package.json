@@ -2,7 +2,6 @@
   "name": "@chaos-design/dom-finder",
   "type": "module",
   "version": "0.0.1",
-  "private": false,
   "exports": {
     "development": "./src/index.ts",
     "types": "./index.d.ts",
@@ -38,7 +37,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
     "tsup": "^7.1.0",
-    "typescript": "^5.1.6",
+    "typescript": "^5.6.2",
     "unbuild": "^1.2.1"
   }
 }

@@ -60,7 +60,7 @@ jobs:
 
       - name: Build
         run: |
-          cd ./packages/playround
+          cd ./packages/playground
           pnpm run build
           touch ./dist/.nojekyll
 

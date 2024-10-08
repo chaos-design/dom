@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Flex, Splitter, Typography } from 'antd';
 
@@ -10,7 +10,7 @@ import DomDemo from './dom';
 
 import './index.css';
 
-const Content: FC<any> = ({ title, text }) => (
+const Content: React.FC<any> = ({ title, text }) => (
   <Flex style={{ height: '100%', width: '100%' }} vertical>
     <Flex justify="center">
       <Typography.Title

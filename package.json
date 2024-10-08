@@ -43,7 +43,8 @@
     "*": [
       "prettier --write --cache --ignore-unknown",
       "npm run generate-packages-info",
-      "pnpm run getchanged"
+      "pnpm run getchanged",
+      "git add ."
     ],
     "packages/*/{src,types}/**/*.ts": [
       "eslint --cache --fix"

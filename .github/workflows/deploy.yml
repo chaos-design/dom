@@ -60,7 +60,7 @@ jobs:
 
       - name: Build
         run: |
-          pnpm -r --filter='./packages/playground' run build
+          pnpm run build
           cd ./packages/playground
           touch ./dist/.nojekyll
 

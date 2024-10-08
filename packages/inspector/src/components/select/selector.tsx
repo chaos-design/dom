@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { css as emotionCss } from '@emotion/css';
 import c from '@chaos-design/classnames';
-import { useEmotionCss } from '../shared/emotion';
+import { useEmotionCss } from '../shared';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
@@ -13,12 +13,15 @@ import {
 import { debounce } from '../../utils/helper';
 
 import Highlighter from './highlighter';
-import { SelectedProps } from '../../utils/hooks/useApp';
-import { CssSelectorConfig } from '../../utils/selector/css';
+import { AppConfig, SelectedProps } from '../../utils/hooks/useApp';
+import {
+  CssSelectorSetting,
+  getCssSelectorConfig,
+} from '../../utils/selector/css';
 import { findElementList } from '../../utils/dom/list';
 import { EL_LIST_ATTR } from '../../utils/selector/const';
 
-export interface SelectorProps {
+export interface SelectorProps extends AppConfig {
   className?: string;
   disabled: boolean;
   single: boolean;
@@ -26,12 +29,11 @@ export interface SelectorProps {
   selectorType: string;
   withAttributes?: boolean;
   selectedElements: ElementRect[];
-  selectorSettings?: CssSelectorConfig;
+  selectorSettings?: CssSelectorSetting;
   onSelected: (selector: SelectedProps) => void;
 }
 
 const OVERLAY_ID = 'chaos-inspector-overlay';
-const SELECTED_OVERLAY_ID = 'chaos-inspector-selected-overlay';
 
 export const IGNORE_TAG_LIST = ['SCRIPT', 'LINK', 'STYLE'];
 
@@ -40,9 +42,10 @@ function Selector(props: SelectorProps) {
     disabled,
     single,
     dragging,
+    setting,
     selectorType,
     withAttributes,
-    selectedElements,
+    selectedElements: selected = [],
   } = props;
 
   const [elementState, setElementState] = useState<{
@@ -50,7 +53,7 @@ function Selector(props: SelectorProps) {
     selected: ElementRect[];
   }>({
     hovered: [],
-    selected: [],
+    selected,
   });
   const css = useEmotionCss();
 
@@ -60,11 +63,20 @@ function Selector(props: SelectorProps) {
   let lastScrollPosX = window.scrollX;
 
   let hoveredElements: Element[] = [];
+  let selectedElements: ElementRect[] = elementState.selected;
 
-  // console.log('props', props);
+  const effectValue = useMemo(
+    () => [
+      selectorType,
+      single,
+      setting,
+      JSON.stringify(props.selectorSettings),
+    ],
+    [selectorType, single, setting, JSON.stringify(props.selectorSettings)]
+  );
 
   const removeElementsList = useCallback(() => {
-    const prevSelectedList = document.querySelectorAll('[automa-el-list]');
+    const prevSelectedList = document.querySelectorAll(`[${EL_LIST_ATTR}]`);
     prevSelectedList.forEach((el) => {
       el.removeAttribute(EL_LIST_ATTR);
     });
@@ -111,13 +123,12 @@ function Selector(props: SelectorProps) {
         'chaos-inspector'
       );
 
-      if (dragging || disabled || isInspector) {
+      if (setting || dragging || disabled || isInspector) {
         return;
       }
 
       const isSelected = type === 'selected';
       const isSelectList = !single && selectorType === 'css';
-      // console.log('retrieveElementsRect', { single, selectorType, isSelectList });
 
       let target = element;
 
@@ -162,15 +173,17 @@ function Selector(props: SelectorProps) {
       }));
 
       if (isSelected) {
+        selectedElements = elementsRect;
+
         const selector = generateElementSelector({
           selectorType,
           target,
           list: isSelectList,
           hoveredElements,
-          selectorSettings: props.selectorSettings,
+          selectorSettings: getCssSelectorConfig(props.selectorSettings),
         });
 
-        const selectedElements = elementsRect.reduce(
+        const selectElements = elementsRect.reduce(
           (acc: ElementRect[], rect, index) => {
             if (rect.tagName !== 'SELECT') {
               return acc;
@@ -186,13 +199,14 @@ function Selector(props: SelectorProps) {
         props.onSelected({
           selector,
           selectedElement: target,
-          selectedElements,
+          selectElements,
+          selectedElements: elementsRect,
           elements: elementsRect,
           path: getElementPath(target),
         });
       }
     },
-    [selectorType, single]
+    [effectValue]
   );
 
   const onMousedown = useCallback(
@@ -204,7 +218,7 @@ function Selector(props: SelectorProps) {
 
       retrieveElementsRect(e, 'selected');
     },
-    [selectorType, single]
+    [effectValue]
   );
 
   const onMousemove = useCallback(
@@ -216,7 +230,7 @@ function Selector(props: SelectorProps) {
 
       retrieveElementsRect(e as any, 'hovered');
     },
-    [selectorType, single]
+    [effectValue]
   );
 
   const onScroll = useCallback(
@@ -226,15 +240,10 @@ function Selector(props: SelectorProps) {
       }
 
       hoveredElements = [];
-      setElementState((c) => ({
-        ...c,
-        hovered: [],
-      }));
+      const yPos = window.scrollY - lastScrollPosY;
+      const xPos = window.scrollX - lastScrollPosX;
 
-      const xPos = window.screenX - lastScrollPosX;
-      const yPos = window.screenY - lastScrollPosY;
-
-      const newSelected = elementState.selected.map((s) => {
+      selectedElements = selectedElements.map((s) => {
         return {
           ...s,
           x: s.x - xPos,
@@ -244,95 +253,100 @@ function Selector(props: SelectorProps) {
 
       setElementState((c) => ({
         ...c,
-        selected: newSelected,
+        hovered: [],
+        selected: selectedElements,
       }));
 
       lastScrollPosY = window.scrollY;
       lastScrollPosX = window.scrollX;
-    }, 200),
-    [selectorType, single]
+    }, 100),
+    [effectValue]
   );
 
-  const onKeydown = useCallback((e: KeyboardEvent) => {
-    if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
-      e.preventDefault();
+  const onKeydown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+        e.preventDefault();
 
-      const [highlightedElement] = hoveredElements;
+        const [highlightedElement] = hoveredElements;
 
-      if (highlightedElement) {
-        let newElement: Element | null = null;
+        if (highlightedElement) {
+          let newElement: Element | null = null;
 
-        if (e.key === 'ArrowDown') {
-          if (highlightedElement.firstElementChild) {
-            newElement = highlightedElement.firstElementChild;
-          } else {
-            let sibling = highlightedElement;
+          if (e.key === 'ArrowDown') {
+            if (highlightedElement.firstElementChild) {
+              newElement = highlightedElement.firstElementChild;
+            } else {
+              let sibling = highlightedElement;
 
-            while (sibling) {
-              if (sibling.nextElementSibling) {
-                newElement = sibling.nextElementSibling;
-                break;
+              while (sibling) {
+                if (sibling.nextElementSibling) {
+                  newElement = sibling.nextElementSibling;
+                  break;
+                }
+
+                sibling = sibling.parentNode as Element;
               }
+            }
+          } else if (e.key === 'ArrowUp') {
+            if (highlightedElement.previousElementSibling) {
+              newElement = highlightedElement.previousElementSibling;
 
-              sibling = sibling.parentNode as Element;
+              while (newElement.lastElementChild) {
+                newElement = newElement.lastElementChild;
+              }
+            } else {
+              newElement = highlightedElement.parentNode as Element;
             }
           }
-        } else if (e.key === 'ArrowUp') {
-          if (highlightedElement.previousElementSibling) {
-            newElement = highlightedElement.previousElementSibling;
 
-            while (newElement.lastElementChild) {
-              newElement = newElement.lastElementChild;
-            }
-          } else {
-            newElement = highlightedElement.parentNode as Element;
+          if (newElement && !IGNORE_TAG_LIST.includes(newElement!.tagName)) {
+            // @ts-ignore
+            const rect = newElement?.getBoundingClientRect();
+
+            retrieveElementsRect(
+              {
+                clientX: rect.x,
+                clientY: rect.y,
+                target: newElement,
+                element: newElement,
+              },
+              'hovered'
+            );
           }
         }
 
-        if (newElement && !IGNORE_TAG_LIST.includes(newElement!.tagName)) {
-          // @ts-ignore
-          const rect = newElement?.getBoundingClientRect();
-
-          retrieveElementsRect(
-            {
-              clientX: rect.x,
-              clientY: rect.y,
-              target: newElement,
-              element: newElement,
-            },
-            'hovered'
-          );
-        }
+        return;
       }
 
-      return;
-    }
+      if (!['Space', 'Enter'].includes(e.code) || e.repeat) {
+        return;
+      }
 
-    if (e.code !== 'Space' || e.repeat) {
-      return;
-    }
+      const { 1: selectedElement } = document.elementsFromPoint(
+        mousePosition.current.x,
+        mousePosition.current.y
+      );
 
-    const { 1: selectedElement } = document.elementsFromPoint(
-      mousePosition.current.x,
-      mousePosition.current.y
-    );
+      if (selectedElement.id === OVERLAY_ID) {
+        return;
+      }
 
-    if (selectedElement.id === SELECTED_OVERLAY_ID) {
-      return;
-    }
+      e.preventDefault();
+      e.stopPropagation();
 
-    e.preventDefault();
-    e.stopPropagation();
-
-    retrieveElementsRect(
-      {
-        target: selectedElement,
-        clientX: mousePosition.current.x,
-        clientY: mousePosition.current.y,
-      },
-      'selected'
-    );
-  }, []);
+      retrieveElementsRect(
+        {
+          target: selectedElement,
+          element: hoveredElements?.[0],
+          clientX: mousePosition.current.x,
+          clientY: mousePosition.current.y,
+        },
+        'selected'
+      );
+    },
+    [effectValue]
+  );
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
@@ -346,16 +360,16 @@ function Selector(props: SelectorProps) {
       document.removeEventListener('mousedown', onMousedown);
       document.removeEventListener('keydown', onKeydown);
     };
-  }, [selectorType, single]);
+  }, [effectValue]);
 
   useEffect(() => {
-    if (selectedElements.length) {
+    if (selected.length) {
       setElementState((c) => ({
         ...c,
-        selected: selectedElements,
+        selected,
       }));
     }
-  }, [selectedElements]);
+  }, [selected]);
 
   useEffect(() => {
     removeElementsList();
@@ -383,17 +397,15 @@ function Selector(props: SelectorProps) {
       >
         <Highlighter
           elements={elementState.hovered}
-          stroke-width="2"
           stroke="#fbbf24"
           fill="rgba(251, 191, 36, 0.1)"
         />
         <Highlighter
           elements={elementState.selected}
-          stroke-width="2"
-          stroke="#f87171"
-          active-stroke="#f87171"
+          stroke="#2563eb"
+          activeStroke="#f87171"
           fill="rgba(248, 113, 113, 0.1)"
-          active-fill="rgba(248, 113, 113, 0.1)"
+          activeFill="rgba(248, 113, 113, 0.1)"
         />
       </svg>
       {!disabled &&

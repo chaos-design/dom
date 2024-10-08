@@ -22,6 +22,7 @@ export interface ElementRect extends Record<string, any> {
   width: number;
   height: number;
 
+  tagName?: string;
   elIndex?: number;
   outline?: string | number;
   highlight?: boolean;
@@ -41,6 +42,7 @@ export function getElementRect(
     height: height + 4,
     x: x - 2,
     y: y - 2,
+    tagName: target?.tagName,
   };
 
   if (withAttributes) {
@@ -55,7 +57,7 @@ export function getElementRect(
     });
 
     result.attributes = attributes;
-    result.tagName = target.tagName;
+    // result.tagName = target.tagName;
   }
 
   return result;
@@ -70,8 +72,8 @@ export const generateElementSelector = ({
 }: {
   selectorType: string;
   target: Element;
-  list: boolean;
-  hoveredElements: Element[];
+  list?: boolean;
+  hoveredElements?: Element[];
   selectorSettings?: CssSelectorConfig;
 }) => {
   let selector = '';
@@ -85,7 +87,6 @@ export const generateElementSelector = ({
       const childSelector = generateCssSelector(target, {
         root: isInList,
         ...(selectorSettings || {}),
-        id: () => false,
       });
       const listSelector = isInList.getAttribute(EL_LIST_ATTR);
 
@@ -129,7 +130,6 @@ export const getElementPath = (element: Element, root = document) => {
     // @ts-expect-error
     path.push(current);
 
-    // @ts-expect-error
     current = current.parentNode;
   }
   return path;

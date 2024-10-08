@@ -1,12 +1,17 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ElementRect, generateElementSelector } from '../dom/selector';
 import FindElement from '../selector/find';
+import { CssSelectorSetting, getCssSelectorConfig } from '../selector/css';
+
 export interface AppConfig {
   container?: Document;
   selectorType: string;
   dragging: boolean;
   disabled: boolean;
   single: boolean;
+  setting: boolean;
+
+  settings?: CssSelectorSetting;
 }
 
 export interface AppContextProps {
@@ -29,6 +34,7 @@ export const useAppContext = () => useContext(AppContext);
 export interface SelectedProps extends Record<string, any> {
   selector: string;
   selectedElement: Element | null;
+  selectElements: ElementRect[];
   selectedElements: ElementRect[];
   elements: ElementRect[];
   path?: Element[];
@@ -43,6 +49,7 @@ export const useApp = () => {
   const [selected, setSelected] = useState<SelectedProps>({
     selector: '',
     selectedElement: null,
+    selectElements: [],
     selectedElements: [],
     elements: [],
   });
@@ -54,6 +61,13 @@ export const useApp = () => {
     dragging: false,
     disabled: false,
     single: true,
+    setting: false,
+    settings: {
+      idName: true,
+      tagName: true,
+      className: true,
+      attributes: 'data-test',
+    },
   });
 
   const setAppValue = (
@@ -105,6 +119,7 @@ export const useApp = () => {
         ...s,
         selector: generateElementSelector({
           selectorType: config.selectorType,
+          selectorSettings: getCssSelectorConfig(config.settings),
           target,
         }),
       }));

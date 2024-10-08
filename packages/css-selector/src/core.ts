@@ -45,15 +45,11 @@ class CssSelector {
   config: CssSelectorConfig;
   start: Date;
 
-  constructor(config: CssSelectorConfig = {}, el?: Element | Element[]) {
+  constructor(config: CssSelectorConfig = {}) {
     this.start = new Date();
 
     this.config = sanitizeOptions(Object.assign(defaultOptions, config));
     this.rootDocument = this.findRootDocument(this.config.root);
-
-    if (el) {
-      this.getCssSelectorList(el);
-    }
   }
 
   static getCssSelector(el: Element | Element[], config?: CssSelectorConfig) {

@@ -1,12 +1,3 @@
-import c from '@chaos-design/classnames';
-import { Flex, Select, Space } from 'antd';
-import {
-  DragOutlined,
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  SettingOutlined,
-  UnorderedListOutlined,
-} from '@ant-design/icons';
 import {
   useCallback,
   useEffect,
@@ -15,15 +6,32 @@ import {
   useState,
 } from 'react';
 
-import { useEmotionCss } from './components/shared/emotion';
-import Button from './components/shared/tip-button';
-import Selector from './components/selector';
-import ElementQuery from './components/selector/query';
-import ElementDetail from './components/selector/detail';
+import c from '@chaos-design/classnames';
+import { Flex, Select, Space } from 'antd';
+import {
+  CloseOutlined,
+  DragOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  SettingOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
+
+import { useEmotionCss, Button } from './components/shared';
+import {
+  Selector,
+  ElementQuery,
+  ElementDetail,
+  ElementSettings,
+} from './components/select';
 
 import { SelectedProps, useApp } from './utils/hooks/useApp';
-import { generateElementSelector, getElementRect } from './utils/dom/selector';
-import { generateCssSelector } from './utils/selector/css';
+import {
+  ElementRect,
+  generateElementSelector,
+  getElementRect,
+} from './utils/dom/selector';
+import { getCssSelectorConfig } from './utils/selector/css';
 
 export interface ContentProps {
   className?: string;
@@ -126,6 +134,7 @@ export default function App() {
             target: element,
             list: config.single && config.selectorType === 'css',
             hoveredElements: [element],
+            selectorSettings: getCssSelectorConfig(config.settings),
           }),
         },
         'selector'
@@ -174,6 +183,29 @@ export default function App() {
       }));
     },
     [config.dragging]
+  );
+
+  const handleHighlight = useCallback(
+    (highlight: boolean, index: number, element: ElementRect) => {
+      const selectedElements = selected.selectedElements.map((e, i) => {
+        if (i === index) {
+          return {
+            ...e,
+            highlight,
+          };
+        }
+
+        return e;
+      });
+
+      setAppValue(
+        {
+          selectedElements,
+        },
+        'selector'
+      );
+    },
+    [selected]
   );
 
   const cardElementObserver = new ResizeObserver(([entry]) => {
@@ -228,7 +260,6 @@ export default function App() {
     selected,
     appConfig,
   };
-  // console.log('config', config);
 
   return (
     <>
@@ -392,25 +423,93 @@ export default function App() {
                   />
                   <Button
                     type="text"
-                    disabled
-                    icon={<SettingOutlined />}
+                    disabled={config.disabled}
+                    icon={
+                      !config.setting ? <SettingOutlined /> : <CloseOutlined />
+                    }
                     tooltipProps={{
-                      title: '技术小哥正在加班加点肝设置',
+                      title: 'CSS选择器设置',
+                    }}
+                    onClick={() => {
+                      setAppValue({
+                        setting: !config.setting,
+                      });
                     }}
                   />
                 </Space>
               )}
             </Flex>
-            <ElementQuery
-              selected={selected}
-              config={config}
-              onClick={getSelectElementPath}
-            />
-            <ElementDetail selected={selected} config={config} />
+            {config.setting && config.selectorType === 'css' ? (
+              <ElementSettings
+                selected={selected}
+                config={config}
+                onClick={(name, value) => {
+                  setAppValue({
+                    settings: {
+                      ...config.settings,
+                      [name]: value,
+                    },
+                  });
+                }}
+              />
+            ) : (
+              <>
+                <ElementQuery
+                  selected={selected}
+                  config={config}
+                  onClick={getSelectElementPath}
+                />
+                {selected.selector && (
+                  <ElementDetail
+                    selected={selected}
+                    config={config}
+                    handleHighlight={handleHighlight}
+                  />
+                )}
+              </>
+            )}
             <Flex>
               <Space>
                 <p>
-                  点击或者按<kbd>Space</kbd>选择一个元素
+                  点击或者按&nbsp;
+                  <kbd
+                    className={c(css`
+                      background-color: #eee;
+                      border-radius: 3px;
+                      border: 1px solid #b4b4b4;
+                      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+                        0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+                      color: #333;
+                      display: inline-block;
+                      font-size: 0.85em;
+                      font-weight: 700;
+                      line-height: 1;
+                      padding: 2px 4px;
+                      white-space: nowrap;
+                    `)}
+                  >
+                    Space
+                  </kbd>
+                  &nbsp;或者&nbsp;
+                  <kbd
+                    className={c(css`
+                      background-color: #eee;
+                      border-radius: 3px;
+                      border: 1px solid #b4b4b4;
+                      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+                        0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+                      color: #333;
+                      display: inline-block;
+                      font-size: 0.85em;
+                      font-weight: 700;
+                      line-height: 1;
+                      padding: 2px 4px;
+                      white-space: nowrap;
+                    `)}
+                  >
+                    Enter
+                  </kbd>{' '}
+                  选择一个元素
                 </p>
               </Space>
             </Flex>
@@ -419,6 +518,7 @@ export default function App() {
       </div>
       <Selector
         {...config}
+        selectorSettings={config.settings}
         selectedElements={selected.selectedElements}
         onSelected={onSelected}
         withAttributes

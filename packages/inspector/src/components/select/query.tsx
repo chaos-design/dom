@@ -6,10 +6,9 @@ import {
   CopyOutlined,
 } from '@ant-design/icons';
 
-import { useEmotionCss } from '../shared/emotion';
+import { useEmotionCss, Button } from '../shared';
 import { AppProps } from '../../utils/hooks/useApp';
 import { copyTextToClipboard } from '../../utils/share';
-import Button from '../shared/tip-button';
 
 export interface ElementQueryProps extends AppProps {
   className?: string;
@@ -45,7 +44,7 @@ export default function ElementQuery({
         <Button
           type="text"
           icon={<ArrowUpOutlined />}
-          disabled={config.disabled}
+          disabled={config.disabled || !selected.selector}
           tooltipProps={{
             title: '上一个元素',
           }}
@@ -55,7 +54,7 @@ export default function ElementQuery({
         />
         <Button
           type="text"
-          disabled={config.disabled}
+          disabled={config.disabled || !selected.selector}
           icon={<ArrowDownOutlined />}
           tooltipProps={{
             title: '下一个元素',

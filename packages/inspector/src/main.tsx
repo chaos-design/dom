@@ -1,5 +1,5 @@
 import c from '@chaos-design/classnames';
-import ShadowDom from './components/shared/shadow-dom';
+import { ShadowDom } from './components/shared';
 import ShadowDomRoot from 'react-shadow';
 import App from './app';
 import { createPortal } from 'react-dom';

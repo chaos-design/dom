@@ -11,9 +11,7 @@ export function getCssSelector(
   el: Element | Element[],
   config?: CssSelectorConfig,
 ) {
-  if (!cssSelector) {
-    cssSelector = new CssSelector(config);
-  }
+  const cssSelector = new CssSelector(config);
 
   return cssSelector.getCssSelectorList(el);
 }

@@ -95,26 +95,44 @@ function App() {
       }}
     >
       <Inspector />
-      <h1>Vite + React + ts</h1>
-      <h3>create by chaos</h3>
-      <div className="card" ref={cardRef} style={{ border: '10px solid red' }}>
-        <button onClick={() => setCount((count: number) => count + 1)}>
+      <h1 data-test="chaos" aria-label="vite-div" className="chaos">
+        Vite + React + TS + Inspector
+      </h1>
+      <h3 className="chaos-h3-class" id="chaos-h3-id">
+        create by chaos
+      </h3>
+      <div
+        className="card"
+        aria-label="card"
+        ref={cardRef}
+        style={{ border: '10px solid red' }}
+      >
+        <button
+          className="chaos-button-class"
+          id="chaos-button-id"
+          aria-label="button"
+          onClick={() => setCount((count: number) => count + 1)}
+        >
           count is {count}
         </button>
-        <p>
+        <p data-test="chaos" className="chaos-p-class">
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <table>
+      <table className="chaos-table-class">
         <caption>Front-end web developer course 2021</caption>
         <thead>
-          <tr>
+          <tr className="chaos-tr-class" id="chaos-tr-id">
             <th scope="col">Person</th>
             <th scope="col">Most interest in</th>
-            <th scope="col">Age</th>
+            <th scope="col" className="chaos-th-class">
+              Age
+            </th>
             <th scope="col">Person</th>
             <th scope="col">Most interest in</th>
-            <th scope="col">Age</th>
+            <th scope="col" className="chaos-th-class">
+              Age
+            </th>
             <th scope="col">Person</th>
             <th scope="col">Most interest in</th>
             <th scope="col">Age</th>
@@ -127,11 +145,13 @@ function App() {
           <tr>
             <th scope="row">Chris</th>
             <td>HTML tables</td>
-            <td>22</td>
+            <td className="chaos-th-class">22</td>
             <th scope="row">Chris</th>
             <td>HTML tables</td>
             <td>22</td>
-            <th scope="row">Chris</th>
+            <th className="chaos-th-class" scope="row">
+              Chris
+            </th>
             <td>HTML tables</td>
             <td>22</td>
             <th scope="row">Chris</th>
@@ -144,7 +164,7 @@ function App() {
             <td>45</td>
             <th scope="row">Dennis</th>
             <td>Web accessibility</td>
-            <td>45</td>
+            <td className="chaos-th-class">45</td>
             <th scope="row">Dennis</th>
             <td>Web accessibility</td>
             <td>45</td>

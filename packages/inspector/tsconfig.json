@@ -3,7 +3,8 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "typeRoots": ["node_modules/@types", "node_modules/@chaos-design/lib"]
   },
   "include": ["src/**/*.tsx", "src/**/*.ts", "vitest-setup.ts"],
   "exclude": ["node_modules", "lib"]

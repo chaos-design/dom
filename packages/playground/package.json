@@ -13,7 +13,6 @@
   "dependencies": {
     "@chaos-design/css-selector": "workspace:*",
     "@chaos-design/dom-finder": "workspace:*",
-    "@chaos-design/dom-inspector": "workspace:*",
     "@chaos-design/inspector": "workspace:*",
     "antd": "^5.21.1",
     "react": "^18.2.0",

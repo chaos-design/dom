@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 import { Flex, Splitter, Typography } from 'antd';
 
 import getCssSelector from '@chaos-design/css-selector';
-// import DOMInspector from '@chaos-design/dom-inspector';
-// @ts-ignore
 import Inspector from '@chaos-design/inspector';
 import { findPreviousSibling, findNextSibling } from '@chaos-design/dom-finder';
 
@@ -12,7 +10,7 @@ import DomDemo from './dom';
 
 import './index.css';
 
-const Content: React.FC<any> = ({ title, text }) => (
+const Content: FC<any> = ({ title, text }) => (
   <Flex style={{ height: '100%', width: '100%' }} vertical>
     <Flex justify="center">
       <Typography.Title
@@ -59,33 +57,33 @@ function App() {
   //   return () => {};
   // }, []);
 
-  // useEffect(() => {
-  //   if (demoRef.current?.dom) {
-  //     const d = demoRef.current?.dom;
-  //     const { previousSibling, nextSibling } = d;
-  //     console.log('demoRef.current dom', d);
-  //     d.style.border = '1px solid red';
+  useEffect(() => {
+    if (demoRef.current?.dom) {
+      const d = demoRef.current?.dom;
+      const { previousSibling, nextSibling } = d;
+      console.log('demoRef.current dom', d);
+      d.style.border = '1px solid red';
 
-  //     console.log(
-  //       'previousSibling',
-  //       previousSibling,
-  //       findPreviousSibling(d),
-  //       previousSibling.isEqualNode(findPreviousSibling(d)),
-  //     );
-  //     console.log(
-  //       'nextSibling',
-  //       nextSibling,
-  //       findNextSibling(d),
-  //       nextSibling.isEqualNode(findNextSibling(d)),
-  //     );
-  //   }
-  // }, []);
+      console.log(
+        'previousSibling',
+        previousSibling,
+        findPreviousSibling(d),
+        previousSibling.isEqualNode(findPreviousSibling(d)),
+      );
+      console.log(
+        'nextSibling',
+        nextSibling,
+        findNextSibling(d),
+        nextSibling.isEqualNode(findNextSibling(d)),
+      );
+    }
+  }, []);
 
   useEffect(() => {
-    // if (cardRef.current) {
-    //   const selector = getCssSelector([cardRef.current, demoRef.current.dom]);
-    //   console.log('selector', selector);
-    // }
+    if (cardRef.current) {
+      const selector = getCssSelector([cardRef.current, demoRef.current.dom]);
+      console.log('selector', selector);
+    }
   }, []);
 
   return (

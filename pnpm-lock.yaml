@@ -192,7 +192,6 @@ importers:
     specifiers:
       '@chaos-design/css-selector': workspace:*
       '@chaos-design/dom-finder': workspace:*
-      '@chaos-design/dom-inspector': workspace:*
       '@chaos-design/inspector': workspace:*
       '@chaos-design/tsconfig': latest
       '@types/node': ^22.7.5
@@ -216,7 +215,6 @@ importers:
     dependencies:
       '@chaos-design/css-selector': link:../css-selector
       '@chaos-design/dom-finder': link:../dom-finder
-      '@chaos-design/dom-inspector': link:../dom-inspector
       '@chaos-design/inspector': link:../inspector
       antd: 5.21.1_nnrd3gsncyragczmpvfhocinkq
       react: 18.3.1

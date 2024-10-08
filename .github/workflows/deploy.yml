@@ -60,8 +60,8 @@ jobs:
 
       - name: Build
         run: |
+          pnpm -r --filter='./packages/playground' run build
           cd ./packages/playground
-          pnpm run build
           touch ./dist/.nojekyll
 
       - name: Upload artifact

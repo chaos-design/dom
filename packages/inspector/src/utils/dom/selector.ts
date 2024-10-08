@@ -115,7 +115,7 @@ export const generateElementSelector = ({
     selector
       = selectorType === 'css'
         ? generateCssSelector(target, selectorSettings)
-        : generateXPath(target);
+        : generateXPath(target) ?? '';
   }
 
   return selector || '';

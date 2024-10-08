@@ -35,7 +35,6 @@ export default defineConfig({
         ...Object.keys(pkg.peerDependencies || {}),
       ].filter(Boolean),
       output: {
-        entryFileNames: '[name].js',
         globals: {
           react: 'React',
           'react-dom': 'react-dom',

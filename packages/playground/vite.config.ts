@@ -18,6 +18,11 @@ export default defineConfig({
   base: basePath,
   build: {
     assetsDir,
+    rollupOptions: {
+      output: {
+        entryFileNames: '[name].[hash:8].js',
+      },
+    },
   },
   plugins: [react()],
 });

@@ -20,6 +20,7 @@ export default defineConfig({
     assetsDir,
     rollupOptions: {
       output: {
+        entryFileNames: '[name]-[hash].js',
         assetFileNames: '[name]-[hash].[ext]',
       },
     },

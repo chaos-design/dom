@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "private": true,
+  "description": "Dom Inspector",
   "exports": {
     "development": "./src/index.ts",
     "types": "./lib/index.d.ts",

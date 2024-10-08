@@ -1,7 +1,8 @@
 {
-  "name": "@chaos-design/grammar-playground",
+  "name": "@chaos-design/playground",
   "private": true,
   "version": "0.0.1",
+  "description": "Chaos Design Playground",
   "type": "module",
   "scripts": {
     "dev": "vite",

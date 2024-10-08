@@ -2,6 +2,7 @@
   "name": "@chaos-design/dom-finder",
   "type": "module",
   "version": "0.0.1",
+  "description": "A simple dom finder",
   "exports": {
     "development": "./src/index.ts",
     "types": "./index.d.ts",

@@ -17,6 +17,7 @@
     "format": "prettier --write --cache .",
     "build": "pnpm -r --filter='./packages/*' run build",
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
+    "generate-packages-info": "node ./scripts/get-package-info.mjs",
     "getchanged": "sh ./scripts/get-changed-pkg-path.sh",
     "release-all": "bumpp packages/**/package.json",
     "release": "bumpp packages/**/package.json packages/**/*/package.json",
@@ -41,6 +42,7 @@
   "lint-staged": {
     "*": [
       "prettier --write --cache --ignore-unknown",
+      "npm run generate-packages-info",
       "pnpm run getchanged"
     ],
     "packages/*/{src,types}/**/*.ts": [

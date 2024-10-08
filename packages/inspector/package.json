@@ -18,6 +18,9 @@
   "scripts": {
     "dev": "rm -rf lib && tsc && vite build --watch",
     "build": "rm -rf lib && tsc && vite build",
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
+    "prepublish": "pnpm run build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -43,7 +46,7 @@
     "@rollup/plugin-terser": "^0.4.3",
     "@rollup/plugin-typescript": "^11.1.2",
     "@testing-library/react": "^16.0.1",
-    "@types/node": "^20.3.3",
+    "@types/node": "^22.7.5",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
     "@vitejs/plugin-react": "^4.0.1",

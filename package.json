@@ -26,7 +26,7 @@
   "devDependencies": {
     "@chaos-design/tsconfig": "latest",
     "@types/cross-spawn": "^6.0.2",
-    "@types/node": "^20.3.3",
+    "@types/node": "^22.7.5",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "bumpp": "^9.1.1",

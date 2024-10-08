@@ -112,7 +112,6 @@ export const generateElementSelector = ({
       });
     }
   } else {
-    // @ts-expect-error
     selector
       = selectorType === 'css'
         ? generateCssSelector(target, selectorSettings)

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Flex, Input, Space, Switch } from 'antd';
 
 import { useEmotionCss } from '../shared';

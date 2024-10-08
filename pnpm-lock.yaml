@@ -127,7 +127,7 @@ importers:
     specifiers:
       '@ant-design/cssinjs': ^1.21.1
       '@ant-design/icons': ^5.5.1
-      '@chaos-design/classnames': latest
+      '@chaos-design/classnames': ^0.0.1
       '@chaos-design/css-selector': workspace:*
       '@chaos-design/tsconfig': latest
       '@emotion/css': ^11.13.0

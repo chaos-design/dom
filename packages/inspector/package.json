@@ -19,7 +19,6 @@
     "dev": "rm -rf lib && tsc && vite build --watch",
     "build": "rm -rf lib && tsc && vite build",
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "simple-git-hooks",
     "prepublish": "pnpm run build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

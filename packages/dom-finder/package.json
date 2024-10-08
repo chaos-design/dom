@@ -20,7 +20,6 @@
     "build": "tsup",
     "preinstall": "npx only-allow pnpm",
     "prepublish": "pnpm run build",
-    "postinstall": "simple-git-hooks",
     "typecheck": "tsc -p scripts --noEmit && pnpm -r --parallel run typecheck",
     "lint": "eslint --cache ./packages/*",
     "format": "prettier --write --cache .",

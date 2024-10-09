@@ -1,7 +1,7 @@
 {
   "name": "@chaos-design/inspector",
   "type": "module",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "visualize the dom inspector",
   "exports": {
     "development": "./src/index.ts",
@@ -32,7 +32,7 @@
     "@ant-design/cssinjs": "^1.21.1",
     "@ant-design/icons": "^5.5.1",
     "@chaos-design/classnames": "^0.0.3",
-    "@chaos-design/css-selector": "workspace:*",
+    "@chaos-design/css-selector": "workspace:^",
     "@emotion/css": "^11.13.0",
     "antd": "^5.21.1",
     "react": "^18.2.0",

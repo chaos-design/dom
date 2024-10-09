@@ -61,13 +61,12 @@ jobs:
       - name: Build
         run: |
           pnpm run build
-          cd ./packages/playground
-          touch ./dist/.nojekyll
+          touch ./packages/playground/dist/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./packages/playground/dist
 
   deploy:
     environment:

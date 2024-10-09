@@ -62,6 +62,7 @@ jobs:
         run: |
           pnpm run build
           touch ./packages/playground/dist/.nojekyll
+          ls -al ./packages/playground/dist
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

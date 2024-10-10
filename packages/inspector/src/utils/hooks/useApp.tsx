@@ -1,7 +1,12 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { ElementRect, generateElementSelector } from '../dom/selector';
 import FindElement from '../selector/find';
-import { CssSelectorSetting, getCssSelectorConfig } from '../selector/css';
+import {
+  ARIA_ATTRS,
+  CssSelectorSetting,
+  getCssSelectorConfig,
+} from '../selector/css';
+import appStore from './appStore';
 
 export interface AppConfig {
   container?: Document;
@@ -46,94 +51,14 @@ export interface AppProps {
 }
 
 export const useApp = () => {
-  const [selected, setSelected] = useState<SelectedProps>({
-    selector: '',
-    selectedElement: null,
-    selectElements: [],
-    selectedElements: [],
-    elements: [],
-  });
-
-  const [container, setContainer] = useState<Document | null>(null);
-  const [config, setConfig] = useState<AppConfig>({
-    container: document,
-    selectorType: 'css',
-    dragging: false,
-    disabled: false,
-    single: true,
-    setting: false,
-    settings: {
-      idName: true,
-      tagName: true,
-      className: true,
-      attributes: 'data-test',
-    },
-  });
-
-  const setAppValue = (
-    value: Partial<AppConfig> | Partial<SelectedProps>,
-    type?: 'selector' | 'config'
-  ) => {
-    if (type === 'selector') {
-      setSelected((s) => ({
-        ...s,
-        ...value,
-      }));
-    } else {
-      setConfig((c) => ({
-        ...c,
-        ...value,
-      }));
-    }
-  };
-
-  const findElement = () => {
-    if (selected.selectedElement) {
-      return selected.selectedElement;
-    }
-
-    if (config.selectorType === 'css') {
-      return FindElement.cssSelector(
-        {
-          selector: selected.selector,
-          multiple: false,
-        },
-        config.container
-      );
-    } else {
-      return FindElement.xpath(
-        {
-          selector: selected.selector,
-          multiple: false,
-        },
-        config.container
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (selected.selector) {
-      const target = findElement() as Element;
-
-      setSelected((s) => ({
-        ...s,
-        selector: generateElementSelector({
-          selectorType: config.selectorType,
-          selectorSettings: getCssSelectorConfig(config.settings),
-          target,
-        }),
-      }));
-    }
-  }, [config.selectorType, selected.selector]);
-
   return {
-    selected,
-    setSelected,
+    store: appStore,
+    selected: appStore.selected,
 
-    config,
-    setAppValue,
+    config: appStore.config,
+    setAppValue: appStore.setAppValue,
 
-    container,
-    setContainer,
+    container: appStore.container,
+    setContainer: appStore.setContainer,
   };
 };

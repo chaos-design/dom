@@ -13,21 +13,33 @@ export interface CssSelectorSetting {
 }
 
 export const getCssSelectorConfig = (config: CssSelectorSetting = {}) => {
-  const attrs = config?.attributes?.split(',').map(i => i.trim()) || [];
+  const attrs = config?.attributes?.split(',').map((i) => i.trim()) || [];
 
   return {
     id: () => config?.idName ?? true,
     class: () => config?.className ?? true,
     tag: () => config?.tagName ?? true,
-    attribute: (name: Attr) => attrs?.includes(name as any),
+    attribute: (attr: Attr) => attrs?.includes(attr?.name),
   };
 };
 
+export const ARIA_ATTRS = ['data-test'];
+
 export function generateCssSelector(
   element: Element,
-  options?: CssSelectorConfig,
+  options?: CssSelectorConfig
 ) {
-  return getCssSelector(element, {
+  let selector = getCssSelector(element, {
+    tag: () => true,
+    attribute: ({ name, value }) =>
+      name === 'id' || Boolean(ARIA_ATTRS.includes(name) && value),
     ...options,
   }) as string;
+
+  const tag = element?.tagName.toLowerCase();
+  if (tag && !selector.startsWith(tag) && !selector.includes(' ')) {
+    selector = `${tag}${selector}`;
+  }
+
+  return selector;
 }

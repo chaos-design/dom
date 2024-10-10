@@ -27,11 +27,13 @@ function getPackages(dir, packages = []) {
     } else if (item === 'package.json') {
       const pkgJson = JSON.parse(fs.readFileSync(itemPath, 'utf-8'));
 
-      packages.push({
-        name: pkgJson.name,
-        version: pkgJson.version,
-        description: pkgJson.description,
-      });
+      if (pkgJson?.private !== true) {
+        packages.push({
+          name: pkgJson.name,
+          version: pkgJson.version,
+          description: pkgJson.description,
+        });
+      }
     }
   }
 

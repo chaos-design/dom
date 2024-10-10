@@ -12,13 +12,14 @@ import { copyTextToClipboard } from '../../utils/share';
 
 export interface ElementQueryProps extends AppProps {
   className?: string;
-  onClick: (type: 'up' | 'down') => void;
+  handleSelectElement: (type: 'up' | 'down', e?: React.MouseEvent<HTMLElement, MouseEvent>
+) => void;
 }
 
 export default function ElementQuery({
   selected,
   config,
-  onClick,
+  handleSelectElement,
 }: ElementQueryProps) {
   const css = useEmotionCss();
 
@@ -48,8 +49,8 @@ export default function ElementQuery({
           tooltipProps={{
             title: '上一个元素',
           }}
-          onClick={() => {
-            onClick('up');
+          onClick={(e) => {
+            handleSelectElement('up', e);
           }}
         />
         <Button
@@ -59,8 +60,8 @@ export default function ElementQuery({
           tooltipProps={{
             title: '下一个元素',
           }}
-          onClick={() => {
-            onClick('down');
+          onClick={(e) => {
+            handleSelectElement('down', e);
           }}
         />
       </Space>

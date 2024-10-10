@@ -9,11 +9,12 @@ import { CopyOutlined } from '@ant-design/icons';
 
 export interface ElementDetailProps extends AppProps {
   className?: string;
-  handleHighlight: (
-    highlight: boolean,
-    index: number,
-    element: ElementRect
-  ) => void;
+  handleHighlight: (props: {
+    highlight: boolean;
+    index: number;
+    element: ElementRect;
+    event?: React.MouseEvent<HTMLElement, MouseEvent>;
+  }) => void;
 }
 
 export default function ElementDetail({
@@ -35,11 +36,11 @@ export default function ElementDetail({
           label: `#${index + 1} Element`,
           children: !(Object.keys(el.attributes).length > 0) ? null : (
             <div
-              onMouseEnter={() => {
-                handleHighlight(true, index, el);
+              onMouseEnter={(event) => {
+                handleHighlight({ highlight: true, index, element: el, event });
               }}
-              onMouseLeave={() => {
-                handleHighlight(false, index, el);
+              onMouseLeave={(event) => {
+                handleHighlight({ highlight: false, index, element: el, event });
               }}
             >
               {Object.keys(el.attributes).map((key) => {

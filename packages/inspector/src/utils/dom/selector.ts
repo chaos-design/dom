@@ -81,28 +81,28 @@ export const generateElementSelector = ({
   const [selectedElement] = hoveredElements;
 
   if (list) {
-    const isInList = target.closest(`[${EL_LIST_ATTR}]`);
+    const isInList = target?.closest(`[${EL_LIST_ATTR}]`);
 
     if (isInList) {
       const childSelector = generateCssSelector(target, {
         root: isInList,
         ...(selectorSettings || {}),
+        id: () => false,
       });
       const listSelector = isInList.getAttribute(EL_LIST_ATTR);
 
-      selector = `${listSelector} > ${childSelector}`;
+      selector = `${listSelector} ${childSelector}`;
     } else {
       const parentSelector = generateCssSelector(
-        selectedElement.parentElement as Element,
+        selectedElement?.parentElement as Element,
         {
           ...(selectorSettings || {}),
         },
       );
 
-      selector = `${parentSelector} > ${selectedElement.tagName.toLowerCase()}`;
+      selector = `${parentSelector} > ${selectedElement?.tagName.toLowerCase()}`;
 
       const prevSelectedList = document.querySelectorAll(`[${EL_LIST_ATTR}]`);
-
       prevSelectedList.forEach((el) => {
         el.removeAttribute(EL_LIST_ATTR);
       });

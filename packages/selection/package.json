@@ -1,8 +1,8 @@
 {
-  "name": "@chaos-design/css-selector",
+  "name": "@chaos-design/selection",
   "type": "module",
-  "version": "0.0.4",
-  "description": "A tool for parsing and generating CSS selectors.",
+  "version": "0.0.1",
+  "description": "Get selection text from mousemove drag selection.",
   "exports": {
     "development": "./src/index.ts",
     "types": "./index.d.ts",
@@ -26,9 +26,7 @@
     "format": "prettier --write --cache .",
     "release": "bumpp package.json"
   },
-  "dependencies": {
-    "@chaos-design/dom-finder": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@chaos-design/eslint-config-ts": "latest",
     "@chaos-design/tsconfig": "latest",

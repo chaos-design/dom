@@ -14,6 +14,7 @@
     "@chaos-design/css-selector": "workspace:*",
     "@chaos-design/dom-finder": "workspace:*",
     "@chaos-design/inspector": "workspace:*",
+    "@chaos-design/selection": "workspace:*",
     "antd": "^5.21.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

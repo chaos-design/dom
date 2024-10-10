@@ -32,6 +32,7 @@ import {
   getElementRect,
 } from './utils/dom/selector';
 import { getCssSelectorConfig } from './utils/selector/css';
+import { observer } from 'mobx-react-lite';
 
 export interface ContentProps {
   className?: string;
@@ -45,7 +46,7 @@ export interface SelectElementProps {
   cache?: WeakMap<Element, Element>;
 }
 
-export default function App() {
+function App() {
   const { config, setAppValue, selected, ...appConfig } = useApp();
   const [cardRect, setCardRect] = useState<{
     x: number;
@@ -70,7 +71,7 @@ export default function App() {
 
   const destroy = useCallback(() => {
     setAppValue(
-      { disabled: true, selectorType: selected.selectorType },
+      { disabled: true, selectorType: config.selectorType },
       'config'
     );
     setAppValue(
@@ -94,7 +95,7 @@ export default function App() {
   }, []);
 
   const getSelectElementPath = useCallback(
-    (type: 'up' | 'down') => {
+    (type: 'up' | 'down', e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
       const forward = type === 'up';
 
       let pathIndex = forward
@@ -140,7 +141,7 @@ export default function App() {
         'selector'
       );
     },
-    [config.selectorType]
+    [config.selectorType, config.single, config.settings]
   );
 
   const onMouseup = useCallback(() => {
@@ -186,7 +187,14 @@ export default function App() {
   );
 
   const handleHighlight = useCallback(
-    (highlight: boolean, index: number, element: ElementRect) => {
+    (props: {
+      highlight: boolean;
+      index: number;
+      element: ElementRect;
+      event?: React.MouseEvent<HTMLElement, MouseEvent>;
+    }) => {
+      const { highlight, index } = props || {};
+
       const selectedElements = selected.selectedElements.map((e, i) => {
         if (i === index) {
           return {
@@ -444,12 +452,15 @@ export default function App() {
                 selected={selected}
                 config={config}
                 onClick={(name, value) => {
-                  setAppValue({
-                    settings: {
-                      ...config.settings,
-                      [name]: value,
+                  setAppValue(
+                    {
+                      settings: {
+                        ...config.settings,
+                        [name]: value,
+                      },
                     },
-                  });
+                    'config'
+                  );
                 }}
               />
             ) : (
@@ -457,7 +468,7 @@ export default function App() {
                 <ElementQuery
                   selected={selected}
                   config={config}
-                  onClick={getSelectElementPath}
+                  handleSelectElement={getSelectElementPath}
                 />
                 {selected.selector && (
                   <ElementDetail
@@ -526,3 +537,5 @@ export default function App() {
     </>
   );
 }
+
+export default observer(App);

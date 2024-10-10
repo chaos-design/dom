@@ -32,9 +32,11 @@
     "@ant-design/cssinjs": "^1.21.1",
     "@ant-design/icons": "^5.5.1",
     "@chaos-design/classnames": "^0.0.3",
-    "@chaos-design/css-selector": "workspace:^",
+    "@chaos-design/css-selector": "workspace:*",
     "@emotion/css": "^11.13.0",
     "antd": "^5.21.1",
+    "mobx": "^6.13.3",
+    "mobx-react-lite": "^4.0.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-shadow": "^20.5.0"

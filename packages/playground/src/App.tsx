@@ -4,6 +4,7 @@ import { Flex, Splitter, Typography } from 'antd';
 
 import getCssSelector from '@chaos-design/css-selector';
 import Inspector from '@chaos-design/inspector';
+import { getParagraph, getSentence, getText } from '@chaos-design/selection';
 import { findPreviousSibling, findNextSibling } from '@chaos-design/dom-finder';
 
 import DomDemo from './dom';
@@ -57,34 +58,40 @@ function App() {
   //   return () => {};
   // }, []);
 
-  useEffect(() => {
-    if (demoRef.current?.dom) {
-      const d = demoRef.current?.dom;
-      const { previousSibling, nextSibling } = d;
-      console.log('demoRef.current dom', d);
-      d.style.border = '1px solid red';
+  // useEffect(() => {
+  //   if (demoRef.current?.dom) {
+  //     const d = demoRef.current?.dom;
+  //     const { previousSibling, nextSibling } = d;
+  //     console.log('demoRef.current dom', d);
+  //     d.style.border = '1px solid red';
 
-      console.log(
-        'previousSibling',
-        previousSibling,
-        findPreviousSibling(d),
-        previousSibling.isEqualNode(findPreviousSibling(d)),
-      );
-      console.log(
-        'nextSibling',
-        nextSibling,
-        findNextSibling(d),
-        nextSibling.isEqualNode(findNextSibling(d)),
-      );
-    }
-  }, []);
+  //     console.log(
+  //       'previousSibling',
+  //       previousSibling,
+  //       findPreviousSibling(d),
+  //       previousSibling.isEqualNode(findPreviousSibling(d)),
+  //     );
+  //     console.log(
+  //       'nextSibling',
+  //       nextSibling,
+  //       findNextSibling(d),
+  //       nextSibling.isEqualNode(findNextSibling(d)),
+  //     );
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (cardRef.current) {
+  //     const selector = getCssSelector([cardRef.current, demoRef.current.dom]);
+  //     console.log('selector', selector);
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (cardRef.current) {
-      const selector = getCssSelector([cardRef.current, demoRef.current.dom]);
-      console.log('selector', selector);
-    }
-  }, []);
+    document.addEventListener('selectionchange', (e) => {
+      console.log(getText(), getParagraph(), getSentence())
+    });
+  }, [])
 
   return (
     <div

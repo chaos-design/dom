@@ -1,7 +1,7 @@
 {
   "name": "@chaos-design/css-selector",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "A tool for parsing and generating CSS selectors.",
   "exports": {
     "development": "./src/index.ts",

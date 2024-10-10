@@ -1,7 +1,7 @@
 {
   "name": "@chaos-design/dom-inspector",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "private": true,
   "description": "Dom Inspector",
   "exports": {

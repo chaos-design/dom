@@ -1,7 +1,7 @@
 {
   "name": "@chaos-design/selection",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "Get selection text from mousemove drag selection.",
   "exports": {
     "development": "./src/index.ts",

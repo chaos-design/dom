@@ -1,13 +1,14 @@
+import React from 'react';
 import c from '@chaos-design/classnames';
 import { ShadowDom } from './components/shared';
 import ShadowDomRoot from 'react-shadow';
-import App from './app';
+import App, { AppProps } from './app';
 import { createPortal } from 'react-dom';
 import { css } from '@emotion/css';
 import { EL_LIST_ATTR } from './utils/selector/const';
 import { useLayoutEffect } from 'react';
 
-export interface InspectorProps {}
+export interface InspectorProps extends AppProps {}
 
 export const inspectorStyles = `
   [${EL_LIST_ATTR}] {
@@ -25,7 +26,7 @@ export const styles = `
   }
 `;
 
-const Inspector = () => {
+const Inspector = (props: InspectorProps) => {
   useLayoutEffect(() => {
     const style = document.createElement('style');
     style.id = 'chaos-inspector-style';
@@ -50,7 +51,7 @@ const Inspector = () => {
         >
           <style>{styles}</style>
           <ShadowDom>
-            <App />
+            <App {...props} />
           </ShadowDom>
         </ShadowDomRoot.div>,
         document.body

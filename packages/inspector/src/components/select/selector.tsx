@@ -1,3 +1,4 @@
+import React from 'react';
 import { createPortal } from 'react-dom';
 import { css as emotionCss } from '@emotion/css';
 import c from '@chaos-design/classnames';
@@ -13,15 +14,15 @@ import {
 import { debounce } from '../../utils/helper';
 
 import Highlighter from './highlighter';
-import { AppConfig, SelectedProps } from '../../utils/hooks/useApp';
 import {
   CssSelectorSetting,
   getCssSelectorConfig,
 } from '../../utils/selector/css';
 import { findElementList } from '../../utils/dom/list';
 import { EL_LIST_ATTR } from '../../utils/selector/const';
+import { AppConfigProps, SelectedProps } from '../../utils/hooks/appStore';
 
-export interface SelectorProps extends AppConfig {
+export interface SelectorProps extends AppConfigProps {
   className?: string;
   disabled: boolean;
   single: boolean;

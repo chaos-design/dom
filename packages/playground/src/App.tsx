@@ -89,9 +89,9 @@ function App() {
 
   useEffect(() => {
     document.addEventListener('selectionchange', (e) => {
-      console.log(getText(), getParagraph(), getSentence())
+      console.log(getText(), getParagraph(), getSentence());
     });
-  }, [])
+  }, []);
 
   return (
     <div
@@ -99,7 +99,11 @@ function App() {
         paddingBottom: 200,
       }}
     >
-      <Inspector />
+      <Inspector
+        getAppConfig={(app) => {
+          console.log('getAppConfig', app);
+        }}
+      />
       <h1 data-test="chaos" aria-label="vite-div" className="chaos">
         Vite + React + TS + Inspector
       </h1>

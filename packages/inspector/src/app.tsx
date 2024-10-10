@@ -1,4 +1,4 @@
-import {
+import React, {
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -13,6 +13,7 @@ import {
   DragOutlined,
   EyeInvisibleOutlined,
   EyeOutlined,
+  // FullscreenExitOutlined,
   SettingOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
@@ -25,7 +26,7 @@ import {
   ElementSettings,
 } from './components/select';
 
-import { SelectedProps, useApp } from './utils/hooks/useApp';
+import { AppConfig, useApp } from './utils/hooks/useApp';
 import {
   ElementRect,
   generateElementSelector,
@@ -33,6 +34,7 @@ import {
 } from './utils/dom/selector';
 import { getCssSelectorConfig } from './utils/selector/css';
 import { observer } from 'mobx-react-lite';
+import { SelectedProps } from './utils/hooks/appStore';
 
 export interface ContentProps {
   className?: string;
@@ -46,7 +48,11 @@ export interface SelectElementProps {
   cache?: WeakMap<Element, Element>;
 }
 
-function App() {
+export interface AppProps {
+  getAppConfig?: (appConfig: AppConfig) => void;
+}
+
+function App(props: AppProps) {
   const { config, setAppValue, selected, ...appConfig } = useApp();
   const [cardRect, setCardRect] = useState<{
     x: number;
@@ -69,11 +75,18 @@ function App() {
     cache: new WeakMap(),
   });
 
+  useEffect(() => {
+    if (typeof props.getAppConfig === 'function') {
+      props.getAppConfig(appConfig.store);
+    }
+  }, []);
+
   const destroy = useCallback(() => {
     setAppValue(
       { disabled: true, selectorType: config.selectorType },
       'config'
     );
+
     setAppValue(
       {
         selector: '',

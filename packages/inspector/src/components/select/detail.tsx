@@ -1,13 +1,14 @@
+import React from 'react';
 import { Collapse, CollapseProps, Flex, Input, Segmented } from 'antd';
 
 import { useEmotionCss } from '../shared';
-import { AppProps } from '../../utils/hooks/useApp';
+import { AppConfig } from '../../utils/hooks/useApp';
 import { useMemo, useState } from 'react';
 import { ElementRect } from '../../utils/dom/selector';
 import { copyTextToClipboard } from '../../utils/share';
 import { CopyOutlined } from '@ant-design/icons';
 
-export interface ElementDetailProps extends AppProps {
+export interface ElementDetailProps extends AppConfig {
   className?: string;
   handleHighlight: (props: {
     highlight: boolean;
@@ -40,7 +41,12 @@ export default function ElementDetail({
                 handleHighlight({ highlight: true, index, element: el, event });
               }}
               onMouseLeave={(event) => {
-                handleHighlight({ highlight: false, index, element: el, event });
+                handleHighlight({
+                  highlight: false,
+                  index,
+                  element: el,
+                  event,
+                });
               }}
             >
               {Object.keys(el.attributes).map((key) => {

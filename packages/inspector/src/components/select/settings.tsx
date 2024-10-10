@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { Flex, Input, Space, Switch } from 'antd';
 
 import { useEmotionCss } from '../shared';
-import { AppProps } from '../../utils/hooks/useApp';
+import { AppConfig } from '../../utils/hooks/useApp';
 import { CssSelectorSetting } from '../../utils/selector/css';
 
-export interface ElementSettingsProps extends AppProps {
+export interface ElementSettingsProps extends AppConfig {
   className?: string;
   onClick: (type: keyof CssSelectorSetting, value: boolean | string) => void;
 }

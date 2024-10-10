@@ -1,3 +1,4 @@
+import React from 'react';
 import { Flex, Input, Space } from 'antd';
 
 import {
@@ -7,13 +8,15 @@ import {
 } from '@ant-design/icons';
 
 import { useEmotionCss, Button } from '../shared';
-import { AppProps } from '../../utils/hooks/useApp';
 import { copyTextToClipboard } from '../../utils/share';
+import { AppConfig } from '../../utils/hooks/useApp';
 
-export interface ElementQueryProps extends AppProps {
+export interface ElementQueryProps extends AppConfig {
   className?: string;
-  handleSelectElement: (type: 'up' | 'down', e?: React.MouseEvent<HTMLElement, MouseEvent>
-) => void;
+  handleSelectElement: (
+    type: 'up' | 'down',
+    e?: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => void;
 }
 
 export default function ElementQuery({

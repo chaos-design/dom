@@ -1,4 +1,4 @@
-export function isXPath(str) {
+export function isXPath(str: string) {
   const regex = /^([(/@]|id\()/;
 
   return regex.test(str);

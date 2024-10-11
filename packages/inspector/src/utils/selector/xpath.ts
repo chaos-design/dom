@@ -1,6 +1,12 @@
+export function isXPath(str) {
+  const regex = /^([(/@]|id\()/;
+
+  return regex.test(str);
+}
+
 export function generateXPath(
   element: Element,
-  root = document.body,
+  root = document.body
 ): string | null {
   if (!element) {
     return null;

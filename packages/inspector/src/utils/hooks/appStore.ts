@@ -9,6 +9,7 @@ export interface AppConfigProps {
   disabled: boolean;
   single: boolean;
   setting: boolean;
+  hide: boolean;
 
   settings?: CssSelectorSetting;
 }
@@ -30,6 +31,7 @@ class AppStore {
     disabled: false,
     single: true,
     setting: false,
+    hide: false,
     settings: {
       idName: true,
       tagName: true,
@@ -67,21 +69,6 @@ class AppStore {
     return this.config.container;
   }
 
-  get selectorType() {
-    return this.config.selectorType;
-  }
-  get dragging() {
-    return this.config.dragging;
-  }
-
-  get disabled() {
-    return this.config.disabled;
-  }
-
-  get single() {
-    return this.config.single;
-  }
-
   get setting() {
     return this.config.setting;
   }
@@ -91,6 +78,18 @@ class AppStore {
   }
   get selector() {
     return this.selected.selector;
+  }
+
+  disable() {
+    this.setConfig({
+      hide: true,
+    });
+  }
+
+  enable() {
+    this.setConfig({
+      hide: false,
+    });
   }
 
   setContainer(container: Document) {

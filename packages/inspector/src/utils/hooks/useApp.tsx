@@ -14,5 +14,8 @@ export const useApp = () => {
 
     container: appStore.container,
     setContainer: appStore.setContainer,
+
+    enable: appStore.enable,
+    disable: appStore.disable,
   };
 };

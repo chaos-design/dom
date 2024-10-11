@@ -13,7 +13,7 @@ import {
   DragOutlined,
   EyeInvisibleOutlined,
   EyeOutlined,
-  // FullscreenExitOutlined,
+  FullscreenExitOutlined,
   SettingOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
@@ -49,7 +49,7 @@ export interface SelectElementProps {
 }
 
 export interface AppProps {
-  getAppConfig?: (appConfig: AppConfig) => void;
+  selector?: string;
 }
 
 function App(props: AppProps) {
@@ -75,15 +75,9 @@ function App(props: AppProps) {
     cache: new WeakMap(),
   });
 
-  useEffect(() => {
-    if (typeof props.getAppConfig === 'function') {
-      props.getAppConfig(appConfig.store);
-    }
-  }, []);
-
   const destroy = useCallback(() => {
     setAppValue(
-      { disabled: true, selectorType: config.selectorType },
+      { hide: true, selectorType: config.selectorType },
       'config'
     );
 
@@ -282,6 +276,10 @@ function App(props: AppProps) {
     appConfig,
   };
 
+  if (config.hide) {
+    return null;
+  }
+
   return (
     <>
       <div
@@ -376,7 +374,7 @@ function App(props: AppProps) {
                   });
                 }}
               />
-              {/* <Button
+              <Button
                 type="text"
                 disabled={config.disabled}
                 tooltipProps={{
@@ -386,7 +384,7 @@ function App(props: AppProps) {
                 onClick={() => {
                   destroy();
                 }}
-              /> */}
+              />
             </Space>
           </Flex>
           <Flex

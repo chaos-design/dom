@@ -5,38 +5,35 @@ import React, {
   useState,
 } from 'react';
 
-import './index.css';
+export interface DomDemoHandle {
+  dom: HTMLTableCellElement | null;
+}
 
-function DomDemo(props: any, _r: any) {
-  const [count, setCount] = useState<number>(0);
-  const ref = useRef(null);
+const DomDemo = forwardRef<DomDemoHandle>(function DomDemo(_props, ref) {
+  const [count, setCount] = useState(0);
+  const cellRef = useRef<HTMLTableCellElement>(null);
 
-  useImperativeHandle(
-    _r,
-    () => ({
-      dom: ref.current,
-    }),
-    [],
-  );
+  // 通过 imperative handle 把内部节点暴露给父级，验证 ref 透传链路
+  useImperativeHandle(ref, () => ({ dom: cellRef.current }), []);
 
   return (
-    <>
-      <h1>Vite + React + ts</h1>
-      <h3>create by chaos</h3>
-      <div className="card">
-        <button onClick={() => setCount((count: number) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
+    <div>
+      <button
+        type="button"
+        onClick={() => setCount((c) => c + 1)}
+        className="chaos-demo-button"
+      >
+        count is {count}
+      </button>
       <table>
+        <caption>嵌套组件内的表格</caption>
         <thead>
           <tr>
-            <th>列标题1</th>
-            <th ref={ref}>列标题2</th>
-            <th>列标题3</th>
+            <th scope="col">列标题1</th>
+            <th scope="col" ref={cellRef}>
+              列标题2
+            </th>
+            <th scope="col">列标题3</th>
           </tr>
         </thead>
         <tbody>
@@ -56,8 +53,8 @@ function DomDemo(props: any, _r: any) {
         <li>Coffee</li>
         <li>Milk</li>
       </ul>
-    </>
+    </div>
   );
-}
+});
 
-export default forwardRef(DomDemo);
+export default DomDemo;

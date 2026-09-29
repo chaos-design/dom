@@ -1,6 +1,136 @@
+html,
+body,
 #root {
-  max-width: 1280px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: #f5f5f5;
+}
+
+.pg-root {
+  min-height: 100vh;
+  background: transparent;
+}
+
+/* ---------- Header：深色应用级导航条 ---------- */
+.pg-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 56px;
+  padding: 0;
+  line-height: normal;
+  background: #001529;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 8%);
+}
+
+.pg-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
   margin: 0 auto;
-  /* padding: 2rem; */
+  padding: 0 20px;
+}
+
+.pg-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pg-brand:hover {
+  color: #fff;
+}
+
+.pg-brand-icon {
+  font-size: 18px;
+}
+
+.pg-brand-tag {
+  margin: 0;
+  color: #fff;
+  background: rgb(255 255 255 / 16%);
+  border-color: transparent;
+}
+
+.pg-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.pg-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pg-nav-link {
+  padding: 6px 12px;
+  color: rgb(255 255 255 / 72%);
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
+}
+
+.pg-nav-link:hover {
+  color: #fff;
+  background: rgb(255 255 255 / 10%);
+}
+
+.pg-inspector-toggle {
+  flex-shrink: 0;
+}
+
+/* ---------- Content ---------- */
+.pg-content {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 0;
+}
+
+.pg-intro {
+  margin-bottom: 24px;
+}
+
+.pg-divider {
+  height: 1px;
+  margin: 32px 0;
+  background: #e8e8e8;
+}
+
+.pg-footer {
+  padding: 16px 20px;
   text-align: center;
+  background: transparent;
+}
+
+@media (width <= 640px) {
+  .pg-header-inner {
+    padding: 0 12px;
+  }
+
+  .pg-brand-text {
+    display: none;
+  }
+
+  .pg-nav-link {
+    padding: 6px 8px;
+  }
 }

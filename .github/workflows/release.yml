@@ -43,16 +43,10 @@ jobs:
           fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: latest
           run_install: false
-        env:
-          # pnpm 12 起，依赖构建脚本被忽略时直接报错（ERR_PNPM_IGNORED_BUILDS）。
-          # action-setup 会在一个空目录里安装 pnpm 本身，必然触发该错误，
-          # 导致 version: latest 永远装不上。此处只对该步骤放宽，
-          # 仓库自身的 .npmrc 仍保持严格校验。
-          npm_config_strict_dep_builds: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4

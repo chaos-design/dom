@@ -1,7 +1,13 @@
 packages:
   - 'packages/**'
 
-# pnpm 10 默认拦截依赖的构建脚本；esbuild / swc 需要它们来落地原生二进制，
+# pnpm 12 起，除 auth / registry 外的配置不再从 .npmrc 读取，
+# 必须放在这里，否则 CI（pnpm latest）会静默退回默认值。
+autoInstallPeers: false
+strictPeerDependencies: false
+shellEmulator: true
+
+# pnpm 默认拦截依赖的构建脚本；esbuild / swc 需要它们来落地原生二进制，
 # 否则 vite 与 tsup 会在运行时找不到对应平台的可执行文件。
 onlyBuiltDependencies:
   - '@swc/core'

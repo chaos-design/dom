@@ -34,6 +34,12 @@ jobs:
           node-version: 22
           cache: "pnpm"
 
+      # setup-node 会在结束时校验缓存目录是否存在；pnpm 的 store 目录是
+      # 按需创建的，这里显式建好，否则 post 步骤会因
+      # "Path Validation Error" 判定 job 失败，从而阻断 deploy。
+      - name: Ensure pnpm store exists
+        run: mkdir -p "$(pnpm store path)"
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 

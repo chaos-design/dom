@@ -1,10 +1,4 @@
 {
-  "compilerOptions": {
-    "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "Bundler",
-    "esModuleInterop": true,
-    "declaration": true
-  },
+  "extends": "../../tsconfig.base.json",
   "include": ["src/**/*.ts"]
 }

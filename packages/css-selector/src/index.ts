@@ -3,7 +3,7 @@ import type { CssSelectorConfig } from './utils/options';
 
 export { default as CssSelector } from './core';
 
-export { CssSelectorConfig };
+export type { CssSelectorConfig };
 
 let cssSelector: CssSelector;
 

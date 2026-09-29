@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
-import { ARIA_ATTRS, CssSelectorSetting } from '../selector/css';
 import { ElementRect } from '../dom/selector';
+import { ARIA_ATTRS, CssSelectorSetting } from '../selector/css';
 
 export interface AppConfigProps {
   container?: Document;
@@ -55,7 +55,7 @@ class AppStore {
 
     this.setAppValue = (
       value: Partial<AppConfigProps> | Partial<SelectedProps>,
-      type: 'selector' | 'config' = 'config'
+      type: 'selector' | 'config' = 'config',
     ) => {
       if (type === 'selector') {
         this.setSelected(value);

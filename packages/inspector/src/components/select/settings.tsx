@@ -1,9 +1,8 @@
-import React from 'react';
 import { Flex, Input, Space, Switch } from 'antd';
-
-import { useEmotionCss } from '../shared';
+import React from 'react';
 import { AppConfig } from '../../utils/hooks/useApp';
 import { CssSelectorSetting } from '../../utils/selector/css';
+import { useEmotionCss } from '../shared';
 
 export interface ElementSettingsProps extends AppConfig {
   className?: string;

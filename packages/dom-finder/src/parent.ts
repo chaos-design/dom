@@ -47,7 +47,7 @@ export const hasElementMatchParentByCandidates = (
   match: MatchParent,
   options: ElementParentOptions,
 ) => {
-  if (typeof match == 'function') {
+  if (typeof match === 'function') {
     return match(getElementParent(element, options));
   }
 
@@ -67,7 +67,7 @@ export const getElementMatchParentCandidates = (
 
   while (currentElement && currentElement !== root) {
     if (
-      typeof match == 'function'
+      typeof match === 'function'
         ? match(currentElement)
         : match === currentElement
     ) {

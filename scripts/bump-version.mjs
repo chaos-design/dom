@@ -1,7 +1,8 @@
 // eslint-disable-next-line import/no-nodejs-modules
+
+import { getChangedPackages } from '@chaos-design/utils-pkg';
 import { execSync } from 'child_process';
 import { $, chalk, fs } from 'zx';
-import { getChangedPackages } from '@chaos-design/utils-pkg';
 
 const changedPackages = getChangedPackages();
 

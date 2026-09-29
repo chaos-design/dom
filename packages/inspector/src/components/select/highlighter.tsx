@@ -43,7 +43,7 @@ export default function Highlighter(props: HighlighterProps) {
 
   return (
     <>
-      {props.elements.map((el, index) => (
+      {props.elements.map((el) => (
         <rect
           x={getNumber(el?.x)}
           y={getNumber(el?.y)}
@@ -53,7 +53,7 @@ export default function Highlighter(props: HighlighterProps) {
           width={getNumber(el?.width)}
           height={getNumber(el?.height)}
           strokeWidth="2"
-          key={index}
+          key={`${el?.x}-${el?.y}-${el?.width}-${el?.height}`}
         />
       ))}
     </>

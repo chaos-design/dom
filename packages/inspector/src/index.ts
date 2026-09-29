@@ -1,5 +1,2 @@
-export { type InspectorProps } from './main';
-
-export { default } from './main';
-
 export * from './instance';
+export { default, type InspectorProps } from './main';

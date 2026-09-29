@@ -1,9 +1,9 @@
 {
-  "extends": "@chaos-design/tsconfig",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "strict": true,
+    "noEmit": true
   },
   "include": ["src/**/*.tsx", "src/**/*.ts", "vitest-setup.ts"]
 }

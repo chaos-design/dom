@@ -112,10 +112,10 @@ export const generateElementSelector = ({
       });
     }
   } else {
-    selector
-      = selectorType === 'css'
+    selector =
+      selectorType === 'css'
         ? generateCssSelector(target, selectorSettings)
-        : generateXPath(target) ?? '';
+        : (generateXPath(target) ?? '');
   }
 
   return selector || '';

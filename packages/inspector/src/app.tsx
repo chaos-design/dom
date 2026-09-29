@@ -1,13 +1,3 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
-
-import c from '@chaos-design/classnames';
-import { Flex, Select, Space } from 'antd';
 import {
   CloseOutlined,
   DragOutlined,
@@ -17,24 +7,31 @@ import {
   SettingOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-
-import { useEmotionCss, Button } from './components/shared';
+import { Flex, Select, Space } from 'antd';
+import c from 'classnames';
+import { observer } from 'mobx-react-lite';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import {
-  Selector,
-  ElementQuery,
   ElementDetail,
+  ElementQuery,
   ElementSettings,
+  Selector,
 } from './components/select';
-
-import { AppConfig, useApp } from './utils/hooks/useApp';
+import { Button, useEmotionCss } from './components/shared';
 import {
   ElementRect,
   generateElementSelector,
   getElementRect,
 } from './utils/dom/selector';
-import { getCssSelectorConfig } from './utils/selector/css';
-import { observer } from 'mobx-react-lite';
 import { SelectedProps } from './utils/hooks/appStore';
+import { AppConfig, useApp } from './utils/hooks/useApp';
+import { getCssSelectorConfig } from './utils/selector/css';
 
 export interface ContentProps {
   className?: string;
@@ -76,17 +73,14 @@ function App(props: AppProps) {
   });
 
   const destroy = useCallback(() => {
-    setAppValue(
-      { hide: true, selectorType: config.selectorType },
-      'config'
-    );
+    setAppValue({ hide: true, selectorType: config.selectorType }, 'config');
 
     setAppValue(
       {
         selector: '',
         selectedElements: [],
       },
-      'selector'
+      'selector',
     );
   }, []);
 
@@ -120,7 +114,7 @@ function App(props: AppProps) {
           selectElement.current.path[selectElement.current.pathIndex];
 
         const child = Array.from(previousElement.children).find(
-          (el) => !['SCRIPT', 'LINK', 'STYLE'].includes(el.tagName)
+          (el) => !['SCRIPT', 'LINK', 'STYLE'].includes(el.tagName),
         );
 
         if (!child) {
@@ -145,10 +139,10 @@ function App(props: AppProps) {
             selectorSettings: getCssSelectorConfig(config.settings),
           }),
         },
-        'selector'
+        'selector',
       );
     },
-    [config.selectorType, config.single, config.settings]
+    [config.selectorType, config.single, config.settings],
   );
 
   const onMouseup = useCallback(() => {
@@ -190,7 +184,7 @@ function App(props: AppProps) {
         y: clientY,
       }));
     },
-    [config.dragging]
+    [config.dragging],
   );
 
   const handleHighlight = useCallback(
@@ -217,10 +211,10 @@ function App(props: AppProps) {
         {
           selectedElements,
         },
-        'selector'
+        'selector',
       );
     },
-    [selected]
+    [selected],
   );
 
   const cardElementObserver = new ResizeObserver(([entry]) => {
@@ -265,11 +259,11 @@ function App(props: AppProps) {
   useEffect(() => {
     document.body.toggleAttribute(
       'chaos-inspector-isDragging',
-      config.dragging
+      config.dragging,
     );
   }, [config.dragging]);
 
-  // @ts-ignore
+  // @ts-expect-error
   window._inspector = {
     config,
     selected,
@@ -295,7 +289,7 @@ function App(props: AppProps) {
             z-index: 99999999;
             ${config.disabled ? '' : 'background: rgba(0, 0, 0, 0.3);'}
             ${!config.dragging ? '' : 'user-select: none;'}
-          `
+          `,
         )}
       >
         <div
@@ -316,7 +310,7 @@ function App(props: AppProps) {
                   transform: scale(1);
                 }
               }
-            `
+            `,
           )}
           style={{
             transform: `translate(${cardRect.x}px, ${cardRect.y}px)`,
@@ -333,7 +327,7 @@ function App(props: AppProps) {
                 z-index: 55;
                 transform: scale(0);
                 transition: transform 200ms ease-in-out;
-              `
+              `,
             )}
             icon={<DragOutlined />}
             onBlur={() => {
@@ -470,7 +464,7 @@ function App(props: AppProps) {
                         [name]: value,
                       },
                     },
-                    'config'
+                    'config',
                   );
                 }}
               />

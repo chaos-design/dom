@@ -6,7 +6,7 @@ export function isXPath(str: string) {
 
 export function generateXPath(
   element: Element,
-  root = document.body
+  root = document.body,
 ): string | null {
   if (!element) {
     return null;

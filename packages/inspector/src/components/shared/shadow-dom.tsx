@@ -1,7 +1,7 @@
-import React from 'react';
-import { App, ConfigProvider } from 'antd';
-import { useShadowRoot } from 'react-shadow';
 import { StyleProvider } from '@ant-design/cssinjs';
+import { App, ConfigProvider } from 'antd';
+import React from 'react';
+import { useShadowRoot } from 'react-shadow';
 import { EmotionCssProvider } from './emotion';
 
 interface ShadowDomProps {

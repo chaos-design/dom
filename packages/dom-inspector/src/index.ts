@@ -1,5 +1,5 @@
-import { throttle } from './shared';
 import { $, addRule, getElementContainerStyle, getZIndex } from './dom';
+import { throttle } from './shared';
 import { addDynamicStyles } from './style';
 
 export interface DomInspectorOptions {
@@ -20,9 +20,9 @@ export interface InspectorOptions {
 }
 
 export enum InspectorStatus {
-  'enable' = 1,
-  'disable',
-  'pause',
+  enable = 1,
+  disable,
+  pause,
 }
 
 export default class DomInspector {
@@ -136,33 +136,33 @@ export default class DomInspector {
     };
     const paddingLevel = {
       width:
-        elementStyle['padding-left']
-        + contentLevel.width
-        + elementStyle['padding-right'],
+        elementStyle['padding-left'] +
+        contentLevel.width +
+        elementStyle['padding-right'],
       height:
-        elementStyle['padding-top']
-        + contentLevel.height
-        + elementStyle['padding-bottom'],
+        elementStyle['padding-top'] +
+        contentLevel.height +
+        elementStyle['padding-bottom'],
     };
     const borderLevel = {
       width:
-        elementStyle['border-left-width']
-        + paddingLevel.width
-        + elementStyle['border-right-width'],
+        elementStyle['border-left-width'] +
+        paddingLevel.width +
+        elementStyle['border-right-width'],
       height:
-        elementStyle['border-top-width']
-        + paddingLevel.height
-        + elementStyle['border-bottom-width'],
+        elementStyle['border-top-width'] +
+        paddingLevel.height +
+        elementStyle['border-bottom-width'],
     };
     const marginLevel = {
       width:
-        elementStyle['margin-left']
-        + borderLevel.width
-        + elementStyle['margin-right'],
+        elementStyle['margin-left'] +
+        borderLevel.width +
+        elementStyle['margin-right'],
       height:
-        elementStyle['margin-top']
-        + borderLevel.height
-        + elementStyle['margin-bottom'],
+        elementStyle['margin-top'] +
+        borderLevel.height +
+        elementStyle['margin-bottom'],
     };
 
     // so crazy
@@ -176,14 +176,14 @@ export default class DomInspector {
       width: `${contentLevel.width}px`,
       height: `${contentLevel.height}px`,
       top: `${
-        elementStyle['margin-top']
-        + elementStyle['border-top-width']
-        + elementStyle['padding-top']
+        elementStyle['margin-top'] +
+        elementStyle['border-top-width'] +
+        elementStyle['padding-top']
       }px`,
       left: `${
-        elementStyle['margin-left']
-        + elementStyle['border-left-width']
-        + elementStyle['padding-left']
+        elementStyle['margin-left'] +
+        elementStyle['border-left-width'] +
+        elementStyle['padding-left']
       }px`,
     });
     addRule(this.inspector.overlay.paddingTop, {
@@ -198,9 +198,9 @@ export default class DomInspector {
       width: `${elementStyle['padding-right']}px`,
       height: `${paddingLevel.height - elementStyle['padding-top']}px`,
       top: `${
-        elementStyle['padding-top']
-        + elementStyle['margin-top']
-        + elementStyle['border-top-width']
+        elementStyle['padding-top'] +
+        elementStyle['margin-top'] +
+        elementStyle['border-top-width']
       }px`,
       right: `${
         elementStyle['margin-right'] + elementStyle['border-right-width']
@@ -213,22 +213,22 @@ export default class DomInspector {
         elementStyle['margin-bottom'] + elementStyle['border-bottom-width']
       }px`,
       right: `${
-        elementStyle['padding-right']
-        + elementStyle['margin-right']
-        + elementStyle['border-right-width']
+        elementStyle['padding-right'] +
+        elementStyle['margin-right'] +
+        elementStyle['border-right-width']
       }px`,
     });
     addRule(this.inspector.overlay.paddingLeft, {
       width: `${elementStyle['padding-left']}px`,
       height: `${
-        paddingLevel.height
-        - elementStyle['padding-top']
-        - elementStyle['padding-bottom']
+        paddingLevel.height -
+        elementStyle['padding-top'] -
+        elementStyle['padding-bottom']
       }px`,
       top: `${
-        elementStyle['padding-top']
-        + elementStyle['margin-top']
-        + elementStyle['border-top-width']
+        elementStyle['padding-top'] +
+        elementStyle['margin-top'] +
+        elementStyle['border-top-width']
       }px`,
       left: `${
         elementStyle['margin-left'] + elementStyle['border-left-width']
@@ -257,9 +257,9 @@ export default class DomInspector {
     addRule(this.inspector.overlay.borderLeft, {
       width: `${elementStyle['border-left-width']}px`,
       height: `${
-        borderLevel.height
-        - elementStyle['border-top-width']
-        - elementStyle['border-bottom-width']
+        borderLevel.height -
+        elementStyle['border-top-width'] -
+        elementStyle['border-bottom-width']
       }px`,
       top: `${elementStyle['margin-top'] + elementStyle['border-top-width']}px`,
       left: `${elementStyle['margin-left']}px`,
@@ -285,28 +285,26 @@ export default class DomInspector {
     addRule(this.inspector.overlay.marginLeft, {
       width: `${elementStyle['margin-left']}px`,
       height: `${
-        marginLevel.height
-        - elementStyle['margin-top']
-        - elementStyle['margin-bottom']
+        marginLevel.height -
+        elementStyle['margin-top'] -
+        elementStyle['margin-bottom']
       }px`,
       top: `${elementStyle['margin-top']}px`,
       left: 0,
     });
 
-    $('.tag', this.inspector.overlay.tips).innerHTML
-      = this.target.tagName.toLowerCase();
+    $('.tag', this.inspector.overlay.tips).innerHTML =
+      this.target.tagName.toLowerCase();
     $('.id', this.inspector.overlay.tips).innerHTML = this.target.id
       ? `#${this.target.id}`
       : '';
     $('.class', this.inspector.overlay.tips).innerHTML = [
       ...this.target.classList,
     ]
-      .map(item => `.${item}`)
+      .map((item) => `.${item}`)
       .join('');
-    $(
-      '.size',
-      this.inspector.overlay.tips,
-    ).innerHTML = `${marginLevel.width}x${marginLevel.height}`;
+    $('.size', this.inspector.overlay.tips).innerHTML =
+      `${marginLevel.width}x${marginLevel.height}`;
 
     let tipsTop = 0;
     if (elementStyle.top >= 24 + 8) {

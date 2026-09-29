@@ -1,21 +1,19 @@
-import React from 'react';
-import { Flex, Input, Space } from 'antd';
-
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
   CopyOutlined,
 } from '@ant-design/icons';
-
-import { useEmotionCss, Button } from '../shared';
-import { copyTextToClipboard } from '../../utils/share';
+import { Flex, Input, Space } from 'antd';
+import React from 'react';
 import { AppConfig } from '../../utils/hooks/useApp';
+import { copyTextToClipboard } from '../../utils/share';
+import { Button, useEmotionCss } from '../shared';
 
 export interface ElementQueryProps extends AppConfig {
   className?: string;
   handleSelectElement: (
     type: 'up' | 'down',
-    e?: React.MouseEvent<HTMLElement, MouseEvent>
+    e?: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => void;
 }
 

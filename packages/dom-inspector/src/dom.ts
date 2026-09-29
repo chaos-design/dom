@@ -1,9 +1,9 @@
 export function isDOM(obj: any = {}) {
   return (
-    typeof obj === 'object'
-    && obj.nodeType === 1
-    && typeof obj.style === 'object'
-    && typeof obj.ownerDocument === 'object'
+    typeof obj === 'object' &&
+    obj.nodeType === 1 &&
+    typeof obj.style === 'object' &&
+    typeof obj.ownerDocument === 'object'
   );
 }
 
@@ -39,12 +39,12 @@ export function getDOMPosition(dom) {
   while (el) {
     computedStyle = getComputedStyle(el);
 
-    x
-      += el?.frameElement.getBoundingClientRect().left
-      - Number.parseFloat(computedStyle['margin-left']);
-    y
-      += el?.frameElement.getBoundingClientRect().top
-      - Number.parseFloat(computedStyle['margin-top']);
+    x +=
+      el?.frameElement.getBoundingClientRect().left -
+      Number.parseFloat(computedStyle['margin-left']);
+    y +=
+      el?.frameElement.getBoundingClientRect().top -
+      Number.parseFloat(computedStyle['margin-top']);
 
     el = el?.parent;
   }
@@ -83,17 +83,17 @@ export const getElementContainerStyle = (ele: HTMLElement) => {
   return {
     ...result,
     width:
-      ele.offsetWidth
-      - result['border-left-width']
-      - result['border-right-width']
-      - result['padding-left']
-      - result['padding-right'],
+      ele.offsetWidth -
+      result['border-left-width'] -
+      result['border-right-width'] -
+      result['padding-left'] -
+      result['padding-right'],
     height:
-      ele.offsetHeight
-      - result['border-top-width']
-      - result['border-bottom-width']
-      - result['padding-top']
-      - result['padding-bottom'],
+      ele.offsetHeight -
+      result['border-top-width'] -
+      result['border-bottom-width'] -
+      result['padding-top'] -
+      result['padding-bottom'],
     ...getDOMPosition(ele),
   };
 };

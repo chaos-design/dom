@@ -1,11 +1,12 @@
 {
-  "extends": "@chaos-design/tsconfig",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "esModuleInterop": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": false
+    "strict": true,
+    "noImplicitReturns": false,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "noEmitOnError": true
   },
   "include": ["vite.config.ts", "src/**/*"]
 }

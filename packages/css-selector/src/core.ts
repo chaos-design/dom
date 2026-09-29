@@ -146,18 +146,18 @@ class CssSelector {
       const elapsedTime = new Date().getTime() - this.start.getTime();
 
       if (
-        this.config.timeoutMs !== undefined
-        && elapsedTime > this.config.timeoutMs
+        this.config.timeoutMs !== undefined &&
+        elapsedTime > this.config.timeoutMs
       ) {
         throw new Error(
           `Timeout: Can't find a unique selector after ${elapsedTime}ms`,
         );
       }
 
-      let level: CssSelectorPath | null = this.sanitizeNode(this.id(current))
-        || this.sanitizeNode(...this.attribute(current))
-        || this.sanitizeNode(...this.className(current))
-        || this.sanitizeNode(this.tagName(current)) || [this.any()];
+      let level: CssSelectorPath | null = this.sanitizeNode(this.id(current)) ||
+        this.sanitizeNode(...this.attribute(current)) ||
+        this.sanitizeNode(...this.className(current)) ||
+        this.sanitizeNode(this.tagName(current)) || [this.any()];
 
       const nth = this.findNthIndex(current);
 
@@ -166,7 +166,7 @@ class CssSelector {
           level = level.concat(
             level
               .filter(this.dispensableNth)
-              .map(node => this.sanitizeNthChild(node, nth)),
+              .map((node) => this.sanitizeNthChild(node, nth)),
           );
         }
       } else if (limit === 'two') {
@@ -176,7 +176,7 @@ class CssSelector {
           level = level.concat(
             level
               .filter(this.dispensableNth)
-              .map(node => this.sanitizeNthChild(node, nth)),
+              .map((node) => this.sanitizeNthChild(node, nth)),
           );
         }
       } else if (limit === 'one') {
@@ -228,7 +228,7 @@ class CssSelector {
   ): Generator<CssSelectorPath> {
     if (stack.length > 0) {
       for (const node of stack[0]) {
-        yield * this.combinations(
+        yield* this.combinations(
           stack.slice(1, stack.length),
           path.concat(node),
         );
@@ -264,14 +264,14 @@ class CssSelector {
         }
 
         if (
-          this.isUniquePath(pathSelector)
-          && this.isSameElement(pathSelector, el)
+          this.isUniquePath(pathSelector) &&
+          this.isSameElement(pathSelector, el)
         ) {
           yield newPath;
 
           scope.visited.set(pathSelector, true);
 
-          yield * this.optimize(newPath, el, scope);
+          yield* this.optimize(newPath, el, scope);
         }
       }
     }
@@ -387,7 +387,7 @@ class CssSelector {
         return `[${name}='${value}']`;
       });
 
-    return attrList.map(attr =>
+    return attrList.map((attr) =>
       this.config.transform(
         {
           tagName: el.tagName.toLowerCase(),
@@ -404,7 +404,7 @@ class CssSelector {
       this.config.class(name, el.tagName.toLowerCase()),
     );
 
-    return classList.map(name =>
+    return classList.map((name) =>
       this.config.transform(
         {
           tagName: el.tagName.toLowerCase(),

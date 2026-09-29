@@ -23,7 +23,7 @@ export const sanitizeElements = (el: unknown): Element[] => {
 };
 
 export const ESCAPED_COLON = ':'.charCodeAt(0).toString(16).toUpperCase();
-export const SPECIAL_CHARACTERS_RE = /[ !"#$%&'()\[\]{|}<>*+,./;=?@^`~\\]/;
+export const SPECIAL_CHARACTERS_RE = /[ !"#$%&'()[\]{|}<>*+,./;=?@^`~\\]/;
 
 /**
  * https://github.com/mathiasbynens/CSS.escape

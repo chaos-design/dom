@@ -1,9 +1,14 @@
-import React from 'react';
-import { createPortal } from 'react-dom';
 import { css as emotionCss } from '@emotion/css';
-import c from '@chaos-design/classnames';
-import { useEmotionCss } from '../shared';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import c from 'classnames';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { createPortal } from 'react-dom';
+import { findElementList } from '../../utils/dom/list';
 
 import {
   ElementRect,
@@ -12,15 +17,14 @@ import {
   getElementRect,
 } from '../../utils/dom/selector';
 import { debounce } from '../../utils/helper';
-
-import Highlighter from './highlighter';
+import { AppConfigProps, SelectedProps } from '../../utils/hooks/appStore';
+import { EL_LIST_ATTR } from '../../utils/selector/const';
 import {
   CssSelectorSetting,
   getCssSelectorConfig,
 } from '../../utils/selector/css';
-import { findElementList } from '../../utils/dom/list';
-import { EL_LIST_ATTR } from '../../utils/selector/const';
-import { AppConfigProps, SelectedProps } from '../../utils/hooks/appStore';
+import { useEmotionCss } from '../shared';
+import Highlighter from './highlighter';
 
 export interface SelectorProps extends AppConfigProps {
   className?: string;
@@ -73,7 +77,7 @@ function Selector(props: SelectorProps) {
       setting,
       JSON.stringify(props.selectorSettings),
     ],
-    [selectorType, single, setting, JSON.stringify(props.selectorSettings)]
+    [selectorType, single, setting, JSON.stringify(props.selectorSettings)],
   );
 
   const removeElementsList = useCallback(() => {
@@ -89,7 +93,7 @@ function Selector(props: SelectorProps) {
       {
         withAttribute,
         withElOptions,
-      }: { withAttribute?: boolean; withElOptions?: boolean }
+      }: { withAttribute?: boolean; withElOptions?: boolean },
     ) => {
       const rect = getElementRect(element, withAttribute);
 
@@ -98,13 +102,13 @@ function Selector(props: SelectorProps) {
           (el) => ({
             value: el.value,
             name: el.innerText,
-          })
+          }),
         );
       }
 
       return rect;
     },
-    [selectorType, single]
+    [selectorType, single],
   );
 
   const retrieveElementsRect = useCallback(
@@ -118,10 +122,10 @@ function Selector(props: SelectorProps) {
         element?: Element;
         target: MouseEvent['target'] & Element;
       },
-      type: 'hovered' | 'selected'
+      type: 'hovered' | 'selected',
     ) => {
       const isInspector = (element || eventTarget).classList.contains(
-        'chaos-inspector'
+        'chaos-inspector',
       );
 
       if (setting || dragging || disabled || isInspector) {
@@ -134,7 +138,7 @@ function Selector(props: SelectorProps) {
       let target = element;
 
       if (!target) {
-        let { 1: point } = document.elementsFromPoint(clientX, clientY);
+        const { 1: point } = document.elementsFromPoint(clientX, clientY);
 
         target = point;
       }
@@ -156,7 +160,7 @@ function Selector(props: SelectorProps) {
         }
 
         elementsRect = elements.map((el) =>
-          getElementRectWithOffset(el, { withAttribute, withElOptions })
+          getElementRectWithOffset(el, { withAttribute, withElOptions }),
         );
       } else {
         if (!isSelected) {
@@ -194,7 +198,7 @@ function Selector(props: SelectorProps) {
 
             return acc;
           },
-          []
+          [],
         );
 
         props.onSelected({
@@ -207,7 +211,7 @@ function Selector(props: SelectorProps) {
         });
       }
     },
-    [effectValue]
+    [effectValue],
   );
 
   const onMousedown = useCallback(
@@ -219,7 +223,7 @@ function Selector(props: SelectorProps) {
 
       retrieveElementsRect(e, 'selected');
     },
-    [effectValue]
+    [effectValue],
   );
 
   const onMousemove = useCallback(
@@ -231,7 +235,7 @@ function Selector(props: SelectorProps) {
 
       retrieveElementsRect(e as any, 'hovered');
     },
-    [effectValue]
+    [effectValue],
   );
 
   const onScroll = useCallback(
@@ -261,7 +265,7 @@ function Selector(props: SelectorProps) {
       lastScrollPosY = window.scrollY;
       lastScrollPosX = window.scrollX;
     }, 100),
-    [effectValue]
+    [effectValue],
   );
 
   const onKeydown = useCallback(
@@ -301,9 +305,8 @@ function Selector(props: SelectorProps) {
             }
           }
 
-          if (newElement && !IGNORE_TAG_LIST.includes(newElement!.tagName)) {
-            // @ts-ignore
-            const rect = newElement?.getBoundingClientRect();
+          if (newElement && !IGNORE_TAG_LIST.includes(newElement.tagName)) {
+            const rect = newElement.getBoundingClientRect();
 
             retrieveElementsRect(
               {
@@ -312,7 +315,7 @@ function Selector(props: SelectorProps) {
                 target: newElement,
                 element: newElement,
               },
-              'hovered'
+              'hovered',
             );
           }
         }
@@ -326,7 +329,7 @@ function Selector(props: SelectorProps) {
 
       const { 1: selectedElement } = document.elementsFromPoint(
         mousePosition.current.x,
-        mousePosition.current.y
+        mousePosition.current.y,
       );
 
       if (selectedElement.id === OVERLAY_ID) {
@@ -343,10 +346,10 @@ function Selector(props: SelectorProps) {
           clientX: mousePosition.current.x,
           clientY: mousePosition.current.y,
         },
-        'selected'
+        'selected',
       );
     },
-    [effectValue]
+    [effectValue],
   );
 
   useEffect(() => {
@@ -393,9 +396,10 @@ function Selector(props: SelectorProps) {
             pointer-events: none;
             position: fixed;
             z-index: 999999;
-          `
+          `,
         )}
       >
+        <title>chaos inspector element highlighter</title>
         <Highlighter
           elements={elementState.hovered}
           stroke="#fbbf24"
@@ -421,10 +425,10 @@ function Selector(props: SelectorProps) {
               top: 0;
               width: 100%;
               height: 100%;
-            `
+            `,
             )}
           />,
-          document.body
+          document.body,
         )}
     </>
   );

@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 
 let assetsDir = '';
 let basePath = '';
 const isGithubActions = process.env.GITHUB_ACTIONS || false;
 
 if (isGithubActions) {
-  // @ts-ignore
+  // @ts-expect-error
   const repo = process.env.GITHUB_REPOSITORY.replace(/.*?\//, '');
 
   assetsDir = `/${repo}/`;

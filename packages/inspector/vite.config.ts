@@ -1,9 +1,9 @@
 /// <reference types="vitest" />
-import path from 'node:path';
-import { readFileSync } from 'node:fs';
-import { defineConfig } from 'vite';
 
-import react from '@vitejs/plugin-react-swc';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 
 function resolve(str: string) {
@@ -11,12 +11,12 @@ function resolve(str: string) {
 }
 
 const pkg = JSON.parse(
-  readFileSync(new URL('./package.json', import.meta.url)).toString()
+  readFileSync(new URL('./package.json', import.meta.url)).toString(),
 );
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), dts({ rollupTypes: true })],
+  plugins: [react(), dts({ bundleTypes: true })],
   build: {
     outDir: 'lib',
     minify: false,

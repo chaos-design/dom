@@ -1,41 +1,32 @@
 {
   "name": "@chaos-design/playground",
   "private": true,
-  "version": "0.0.6",
+  "version": "0.0.1",
   "description": "Chaos Design Playground",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "rm -rf ./dist && tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.5.1",
+    "@ant-design/icons": "^6.3.4",
     "@chaos-design/css-selector": "workspace:*",
     "@chaos-design/dom-finder": "workspace:*",
     "@chaos-design/inspector": "workspace:*",
     "@chaos-design/selection": "workspace:*",
-    "antd": "^5.21.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "antd": "^6.6.5",
+    "mobx-react-lite": "^5.1.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@chaos-design/tsconfig": "latest",
-    "@types/node": "^22.7.5",
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^5.60.0",
-    "@vitejs/plugin-react": "^4.0.1",
-    "eslint": "^8.43.0",
-    "eslint-config-chaos": "latest",
-    "eslint-define-config": "^2.1.0",
-    "lint-staged": "^13.2.3",
-    "npm-run-all": "^4.1.5",
-    "prettier": "^2.8.8",
-    "typescript": "^5.6.2",
-    "unbuild": "^1.2.1",
-    "vite": "^4.3.9"
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "typescript": "^5.9.0",
+    "unbuild": "^3.6.1",
+    "vite": "^7.3.6"
   }
 }

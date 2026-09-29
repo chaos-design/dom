@@ -27,7 +27,7 @@ export const ARIA_ATTRS = ['data-test'];
 
 export function generateCssSelector(
   element: Element,
-  options?: CssSelectorConfig
+  options?: CssSelectorConfig,
 ) {
   let selector = getCssSelector(element, {
     tag: () => true,

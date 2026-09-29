@@ -1,12 +1,10 @@
-import React from 'react';
-import { Collapse, CollapseProps, Flex, Input, Segmented } from 'antd';
-
-import { useEmotionCss } from '../shared';
-import { AppConfig } from '../../utils/hooks/useApp';
-import { useMemo, useState } from 'react';
-import { ElementRect } from '../../utils/dom/selector';
-import { copyTextToClipboard } from '../../utils/share';
 import { CopyOutlined } from '@ant-design/icons';
+import { Collapse, CollapseProps, Flex, Input, Segmented } from 'antd';
+import React, { useMemo, useState } from 'react';
+import { ElementRect } from '../../utils/dom/selector';
+import { AppConfig } from '../../utils/hooks/useApp';
+import { copyTextToClipboard } from '../../utils/share';
+import { useEmotionCss } from '../shared';
 
 export interface ElementDetailProps extends AppConfig {
   className?: string;
@@ -36,6 +34,7 @@ export default function ElementDetail({
           key: index,
           label: `#${index + 1} Element`,
           children: !(Object.keys(el.attributes).length > 0) ? null : (
+            // biome-ignore lint/a11y/noStaticElementInteractions: 属性列表仅用于驱动 inspector 的 hover 高亮，不是可交互控件，添加 role 反而会误导读屏软件
             <div
               onMouseEnter={(event) => {
                 handleHighlight({ highlight: true, index, element: el, event });

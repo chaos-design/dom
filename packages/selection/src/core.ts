@@ -21,8 +21,8 @@ export function getTextFromSelection(
   /* istanbul ignore else */
   if (activeElement) {
     if (
-      activeElement.tagName === 'INPUT'
-      || activeElement.tagName === 'TEXTAREA'
+      activeElement.tagName === 'INPUT' ||
+      activeElement.tagName === 'TEXTAREA'
     ) {
       const el = activeElement as HTMLInputElement | HTMLTextAreaElement;
       return el.value.slice(el.selectionStart || 0, el.selectionEnd || 0);
@@ -60,9 +60,9 @@ export function getParagraphFromSelection(selection: Selection | null): string {
   }
 
   return (
-    extractParagraphHead(range)
-    + selectedText
-    + extractParagraphTail(range)
+    extractParagraphHead(range) +
+    selectedText +
+    extractParagraphTail(range)
   )
     .replace(/\s+/g, ' ')
     .trim();
@@ -220,8 +220,8 @@ function extractSentenceHead(leadingText: string): string {
 
 function extractSentenceTail(tailingText: string): string {
   // match tail                                                       for "..."
-  const tailMatch
-    = /^((\.(?![\s.?!。？！…]))|[^.?!。？！…])*([.?!。？！…]){0,3}/.exec(
+  const tailMatch =
+    /^((\.(?![\s.?!。？！…]))|[^.?!。？！…])*([.?!。？！…]){0,3}/.exec(
       tailingText,
     );
   // the regexp will match empty string so it is unlikely to have null result

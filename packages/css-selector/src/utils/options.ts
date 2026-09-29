@@ -59,7 +59,7 @@ export const defaultOptions: CssSelectorConfig = {
   nth: noop,
   attribute: (attr, tagName) => false,
 
-  transform: selector => selector,
+  transform: (selector) => selector,
 };
 
 export const sanitizeOptions = (options: CssSelectorConfig) => {

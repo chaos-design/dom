@@ -3,22 +3,22 @@ export const CHAOS_DOM_INSPECTOR = 'CHAOS_DOM_INSPECTOR';
 export const setChaosDomInspector = (value: string) =>
   `${CHAOS_DOM_INSPECTOR}_${value}`;
 
-export function throttle(func, wait = 100) {
-  let timeout;
-  let elapsed;
+type AnyFn = (...args: any[]) => any;
+
+export function throttle<T extends AnyFn>(func: T, wait = 100) {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
   let lastRunTime = Date.now(); // 上次运行时间
 
-  return function _throttle(...args) {
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this, @typescript-eslint/no-this-alias
+  return function _throttle(this: unknown, ...args: Parameters<T>) {
     const self = this;
 
     clearTimeout(timeout);
 
-    elapsed = Date.now() - lastRunTime;
+    const elapsed = Date.now() - lastRunTime;
 
     function later() {
       lastRunTime = Date.now();
-      timeout = null;
+      timeout = undefined;
       func.apply(self, args);
     }
 

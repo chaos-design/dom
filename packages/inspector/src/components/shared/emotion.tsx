@@ -16,7 +16,7 @@ export const EmotionCssProvider: React.FC<{
         key: 'chaos-inspector',
         container,
       }),
-    [container]
+    [container],
   );
 
   return (

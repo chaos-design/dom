@@ -9,6 +9,14 @@ shellEmulator: true
 
 # pnpm 默认拦截依赖的构建脚本；esbuild / swc 需要它们来落地原生二进制，
 # 否则 vite 与 tsup 会在运行时找不到对应平台的可执行文件。
-onlyBuiltDependencies:
-  - '@swc/core'
-  - esbuild
+# pnpm 12 用 allowBuilds 取代了 pnpm 10 的 onlyBuiltDependencies。
+allowBuilds:
+  '@swc/core': true
+  esbuild: true
+
+# pnpm 12 默认开启 minimumReleaseAge 供应链策略，会拒绝发布时间落在
+# 策略窗口内的 lockfile 条目。CI 固定使用最新 pnpm，而本仓库的 lockfile
+# 随时会在本地重新解析，新增依赖必然落在窗口内，会以
+# ERR_PNPM_MINIMUM_RELEASE_AGE_VIOLATION 中断 deploy。
+# 这里显式关闭该策略；如需保留防护，应在本地解析时主动遵守窗口期。
+minimumReleaseAge: 0
